@@ -1,14 +1,15 @@
 package entities;
+
 import java.util.ArrayList;
 
-public class Doctor extends User {
+public class Doctor extends Person {
 
     private String speciality;
     private ArrayList<Calendar> availability;
 
-    public Doctor(String name, String password, String email, String phonenum, String speciality,
+    public Doctor(String name, String email, String phonenum, String speciality,
             ArrayList<Calendar> availability) {
-        super(name, password, email, phonenum);
+        super(name, email, phonenum);
         this.speciality = speciality;
         this.availability = availability;
     }

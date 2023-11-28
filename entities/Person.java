@@ -1,13 +1,12 @@
 package entities;
-public class User {
+
+public class Person {
     private String name;
-    private String password;
     private String email;
     private String phonenum;
 
-    public User(String name, String password, String email, String phonenum) {
+    public Person(String name, String email, String phonenum) {
         this.name = name;
-        this.password = password;
         this.email = email;
         this.phonenum = phonenum;
     }
@@ -16,9 +15,6 @@ public class User {
         this.name = name;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -30,10 +26,6 @@ public class User {
 
     public String getName() {
         return name;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getEmail() {
