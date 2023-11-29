@@ -9,8 +9,6 @@ import entities.Calendar;
 import entities.Doctor;
 
 public class DoctorsUtils {
-        public final static int DOCTORS_LISTS_REQUEST = 1;
-        public final static int DOCTORS_LISTS_RESPONSE = 2;
 
         public static Hashtable<String, Doctor> generateDoctors() {
                 // a sample doctor list is hard coded and returned in this func

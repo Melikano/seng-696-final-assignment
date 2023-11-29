@@ -7,6 +7,7 @@ import org.jcp.xml.dsig.internal.dom.Utils;
 
 import entities.Doctor;
 import jade.core.Agent;
+import utils.Messages;
 import utils.DoctorsUtils;
 
 public class HealthCareProviderAgent extends Agent {
@@ -38,11 +39,11 @@ public class HealthCareProviderAgent extends Agent {
                 if (msg != null) {
                     String content = "";
                     switch (msg.getPerformative()){
-                        case DoctorsUtils.DOCTORS_LISTS_REQUEST:
+                        case Messages.DOCTORS_LISTS_REQUEST:
                             System.out.println("HEALTHCARE_PROVIDER: doctors' list request received");
                             //geting a message from portal and iterate over the doctors to get the three fields
                             ACLMessage replyDoctorsList = msg.createReply();
-                            replyDoctorsList.setPerformative(DoctorsUtils.DOCTORS_LISTS_RESPONSE);
+                            replyDoctorsList.setPerformative(Messages.DOCTORS_LISTS_RESPONSE);
                             Set<String> setOfKeys = doctors.keySet();
                             for (String key : setOfKeys)
                             {
