@@ -4,14 +4,15 @@ import java.util.ArrayList;
 
 public class Patient extends Person {
 
+    private String password;
     private ArrayList<Medication> medications;
 
     public Patient(String name, String email, String phonenum,
             ArrayList<Medication> medications) {
         super(name, email, phonenum);
+        this.password = password;
         this.medications = medications;
     }
-
 
     public ArrayList<Calendar> getMedications() {
         return this.medications;
@@ -19,6 +20,10 @@ public class Patient extends Person {
 
     public void setMedications(ArrayList<Medication> medications) {
         this.medications = medications;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
 }
