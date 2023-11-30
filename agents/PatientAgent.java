@@ -57,14 +57,14 @@ public class PatientAgent extends Agent {
         patients.put(u.getEmail(), u);
     }
 
-    public boolean authUser(String username, String password){
+    public boolean loginUser(String username, String password){
 
-        User u = patients.get(username);
-        boolean authenticated = false;
+        User user = patients.get(username);
+        boolean isAuthenticated = false;
 
-        if (u != null)
-            authenticated = Cryptographer.decrypt(u.getPassword()).equals(Cryptographer.decrypt(password));
-        return authenticated;
+        if (user != null)
+            isAuthenticated = Cryptographer.decrypt(u.getPassword()).equals(Cryptographer.decrypt(password));
+        return isAuthenticated;
     }
 
     protected void takeDown() {
@@ -105,17 +105,17 @@ public class PatientAgent extends Agent {
     private class userLoginServer extends CyclicBehaviour{
         @Override
         public void action() {
-            MessageTemplate mt=MessageTemplate.MatchPerformative(Utils.AUTH_REQUEST);
+            MessageTemplate mt=MessageTemplate.MatchPerformative(Messages.LOGIN_REQUEST);
             ACLMessage msg=myAgent.receive(mt);
             if (msg!=null){
                 String info = msg.getContent();
                 String[] newInfo = info.split(Utils.DELIMITER);
 
-                System.out.println("Patient: Received an authentication request for user: " + newInfo[0]);
+                System.out.println("Patient: Received an login request for user: " + newInfo[0]);
 
-                boolean flag = authUser(newInfo[0], newInfo[1]);
+                boolean flag = loginUser(newInfo[0], newInfo[1]);
                 ACLMessage reply = msg.createReply();
-                reply.setPerformative(Utils.AUTH_RESPONSE);
+                reply.setPerformative(Utils.LOGIN_RESPONSE);
                 String content = "";
                 if (flag){
                     String name = patients.get(newInfo[0]).getName();
@@ -126,7 +126,7 @@ public class PatientAgent extends Agent {
                 else
                     content = Utils.MESSAGE_FAILURE;
 
-                System.out.println("Patient: Sending authentication confirmation back to portal");
+                System.out.println("Patient: Sending login confirmation back to portal");
                 reply.setContent(content);
                 myAgent.send(reply);
             }
