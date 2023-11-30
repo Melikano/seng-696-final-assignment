@@ -10,7 +10,7 @@ import org.jcp.xml.dsig.internal.dom.Utils;
 
 import entities.Appointment;
 import jade.core.Agent;
-import utils.DoctorsUtils;
+import utils.DoctorsMessages;
 import utils.Messages;
 
 public class PatientAgent extends Agent {
@@ -23,7 +23,7 @@ public class PatientAgent extends Agent {
         appointments = new ArrayList<Appointment>();
         patients = new Hashtable<String,User>();
 
-        patients = Utils.generatePatients();
+        patients = Messages.generatePatients();
 
         // Register patient service so portal agent can search and find
         DFAgentDescription dfd = new DFAgentDescription();
@@ -73,25 +73,25 @@ public class PatientAgent extends Agent {
 
     private class userRegServer extends CyclicBehaviour{
         public void action(){
-            MessageTemplate mt=MessageTemplate.MatchPerformative(Utils.REGISTER_REQUEST);
+            MessageTemplate mt=MessageTemplate.MatchPerformative(Messages.REGISTER_REQUEST);
             ACLMessage msg=myAgent.receive(mt);
             if (msg!=null){
                 String info = msg.getContent();
-                String[] newInfo = info.split(Utils.DELIMITER);
+                String[] newInfo = info.split(Messages.DELIMITER);
                 User newUser = new User(newInfo[0], newInfo[1], newInfo[2], newInfo[3]);
 
                 System.out.println("Patient: Received a register request for user: " + newUser.getEmail());
 
                 ACLMessage reply = msg.createReply();
-                reply.setPerformative(Utils.REGISTER_RESPONSE);
+                reply.setPerformative(Messages.REGISTER_RESPONSE);
                 String content = "";
 
                 if (patients.containsKey(newUser.getEmail())) {
-                    content = Utils.MESSAGE_FAILURE;
+                    content = Messages.MESSAGE_FAILURE;
                 }
                 else {
                     updateUsers(newUser);
-                    content = Utils.MESSAGE_SUCCESS;
+                    content = Messages.MESSAGE_SUCCESS;
                 }
                 System.out.println("Patient: Sending registration confirmation back to portal");
                 reply.setContent(content);
@@ -109,22 +109,22 @@ public class PatientAgent extends Agent {
             ACLMessage msg=myAgent.receive(mt);
             if (msg!=null){
                 String info = msg.getContent();
-                String[] newInfo = info.split(Utils.DELIMITER);
+                String[] newInfo = info.split(Messages.DELIMITER);
 
                 System.out.println("Patient: Received an login request for user: " + newInfo[0]);
 
                 boolean flag = loginUser(newInfo[0], newInfo[1]);
                 ACLMessage reply = msg.createReply();
-                reply.setPerformative(Utils.LOGIN_RESPONSE);
+                reply.setPerformative(Messages.LOGIN_RESPONSE);
                 String content = "";
                 if (flag){
                     String name = patients.get(newInfo[0]).getName();
-                    content = Utils.MESSAGE_SUCCESS;
-                    content = content.concat(Utils.DELIMITER);
+                    content = Messages.MESSAGE_SUCCESS;
+                    content = content.concat(Messages.DELIMITER);
                     content = content.concat(name);
                 }
                 else
-                    content = Utils.MESSAGE_FAILURE;
+                    content = Messages.MESSAGE_FAILURE;
 
                 System.out.println("Patient: Sending login confirmation back to portal");
                 reply.setContent(content);
@@ -177,13 +177,13 @@ public class PatientAgent extends Agent {
                         else {
                             Integer newAppointmentID = appointments.size();
                             Appointment newAppointment = new Appointment(newAppointmentID, patientEmail,
-                                    doctorEmail, dateTime, DoctorsUtils.HOURLY_WAGE, Boolean.FALSE);
+                                    doctorEmail, dateTime, DoctorsMessages.HOURLY_WAGE, Boolean.FALSE);
                             appointments.add(newAppointment);
                             content =  Messages.MESSAGE_SUCCESS;
                             content = content.concat(Messages.DELIMITER);
                             content = content.concat(newAppointmentID.toString());
                             content = content.concat(Messages.DELIMITER);
-                            content = content.concat(DoctorsUtils.HOURLY_WAGE.toString());
+                            content = content.concat(DoctorsMessages.HOURLY_WAGE.toString());
                         }
 
                         reply.setContent(content);

@@ -36,11 +36,11 @@ public class PortalAgent extends Agent {
         addBehaviour(new OneShotBehaviour() {
             @Override
             public void action() {
-                PatientAgent = Utils.searchForService(myAgent, "patient");
-                healthCareProviderAgent = Utils.searchForService(myAgent, "healthcareprovider");
-                InsuranceAgent = Utils.searchForService(myAgent, "insurace");
-                LaboratoryAgent = Utils.searchForService(myAgent, "laboratory");
-                PharmacyAgent = Utils.searchForService(myAgent, "pharmacy");
+                PatientAgent = Messages.searchForService(myAgent, "patient");
+                healthCareProviderAgent = Messages.searchForService(myAgent, "healthcareprovider");
+                InsuranceAgent = Messages.searchForService(myAgent, "insurace");
+                LaboratoryAgent = Messages.searchForService(myAgent, "laboratory");
+                PharmacyAgent = Messages.searchForService(myAgent, "pharmacy");
 
             }
         });
@@ -58,9 +58,9 @@ public class PortalAgent extends Agent {
                         case Messages.REGISTER_RESPONSE:
                             System.out.println("PORTAL: Received register confirmation");
                             boolean registered = false;
-                            if (payloadLst[0].equals(Utils.MESSAGE_SUCCESS)) {
+                            if (payloadLst[0].equals(Messages.MESSAGE_SUCCESS)) {
                                 registered = true;
-                            } else if (payloadLst[0].equals(Utils.MESSAGE_FAILURE)) {
+                            } else if (payloadLst[0].equals(Messages.MESSAGE_FAILURE)) {
                                 registered = false;
                             }
                             else
@@ -73,11 +73,11 @@ public class PortalAgent extends Agent {
                             String confirmation = payloadLst[0];
                             boolean isAuthenticated = false;
                             String name = "";
-                            if (confirmation.equals(Utils.MESSAGE_SUCCESS)) {
+                            if (confirmation.equals(Messages.MESSAGE_SUCCESS)) {
                                 isAuthenticated = true;
                                 name = payloadLst[1];
                                 System.out.println("PORTAL: Successfully logined user: " + name);
-                            } else if (confirmation.equals(Utils.MESSAGE_FAILURE)) {
+                            } else if (confirmation.equals(Messages.MESSAGE_FAILURE)) {
                                 isAuthenticated = false;
                                 System.out.println("PORTAL: Failed to login");
                             }
@@ -151,10 +151,10 @@ public class PortalAgent extends Agent {
         addBehaviour(new OneShotBehaviour() {
             @Override
             public void action() {
-                ACLMessage message = new ACLMessage(Utils.REGISTER_REQUEST);
+                ACLMessage message = new ACLMessage(Messages.REGISTER_REQUEST);
                 List<String> payloadLst = Arrays.asList(name, password, email, phoneNumber);
 
-                String payload = String.join(Utils.DELIMITER, payloadLst);
+                String payload = String.join(Messages.DELIMITER, payloadLst);
 
                 System.out.println("PORTAL: Requesting to register " + email + " to " + accessAgent.getLocalName());
 
@@ -169,10 +169,10 @@ public class PortalAgent extends Agent {
         addBehaviour(new OneShotBehaviour() {
             @Override
             public void action() {
-                ACLMessage message = new ACLMessage(Utils.LOGIN_REQUEST);
+                ACLMessage message = new ACLMessage(Messages.LOGIN_REQUEST);
                 List<String> payloadLst = Arrays.asList(email, passwordHash);
 
-                String payload = String.join(Utils.DELIMITER, payloadLst);
+                String payload = String.join(Messages.DELIMITER, payloadLst);
 
                 System.out.println("PORTAL: Requesting to login " + email + " to " + accessAgent.getLocalName());
 
