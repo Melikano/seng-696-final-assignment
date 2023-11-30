@@ -1,29 +1,31 @@
 package agents;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.jcp.xml.dsig.internal.dom.Utils;
-
-import entities.Appointment;
 import jade.core.Agent;
-import utils.DoctorsMessages;
-import utils.Messages;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
+import jade.lang.acl.ACLMessage;
+import jade.core.AID;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.time.*;
+import java.util.*;
+import java.util.ArrayList;
+import entities.*;
+import utils.*;
 
 public class PatientAgent extends Agent {
 
     ArrayList<Appointment> appointments;
-    private Hashtable<String,User> patients;
+    private Hashtable<String,Patient> patients;
 
 
     protected void setup() {
         appointments = new ArrayList<Appointment>();
-        patients = new Hashtable<String,User>();
+        patients = new Hashtable<String,Patient>();
 
-        patients = Messages.generatePatients();
+        patients = PatientUtils.generatePatients();
 
         // Register patient service so portal agent can search and find
         DFAgentDescription dfd = new DFAgentDescription();
@@ -53,17 +55,17 @@ public class PatientAgent extends Agent {
     }
 
 
-    public void updateUsers(User u){
-        patients.put(u.getEmail(), u);
+    public void updateUsers(Patient patient){
+        patients.put(patient.getEmail(), patient);
     }
 
     public boolean loginUser(String username, String password){
 
-        User user = patients.get(username);
+        Patient patient = patients.get(username);
         boolean isAuthenticated = false;
 
-        if (user != null)
-            isAuthenticated = Cryptographer.decrypt(u.getPassword()).equals(Cryptographer.decrypt(password));
+        if (patient != null)
+            isAuthenticated = Cryptography.decrypt(patient.getPassword()).equals(Cryptography.decrypt(password));
         return isAuthenticated;
     }
 
@@ -78,19 +80,20 @@ public class PatientAgent extends Agent {
             if (msg!=null){
                 String info = msg.getContent();
                 String[] newInfo = info.split(Messages.DELIMITER);
-                User newUser = new User(newInfo[0], newInfo[1], newInfo[2], newInfo[3]);
+                ArrayList<Medication> medications = new ArrayList<Medication>();
+                Patient newPatient = new Patient(newInfo[0], newInfo[1], newInfo[2], medications);
 
-                System.out.println("Patient: Received a register request for user: " + newUser.getEmail());
+                System.out.println("Patient: Received a register request for user: " + newPatient.getEmail());
 
                 ACLMessage reply = msg.createReply();
                 reply.setPerformative(Messages.REGISTER_RESPONSE);
                 String content = "";
 
-                if (patients.containsKey(newUser.getEmail())) {
+                if (patients.containsKey(newPatient.getEmail())) {
                     content = Messages.MESSAGE_FAILURE;
                 }
                 else {
-                    updateUsers(newUser);
+                    updateUsers(newPatient);
                     content = Messages.MESSAGE_SUCCESS;
                 }
                 System.out.println("Patient: Sending registration confirmation back to portal");
@@ -177,13 +180,13 @@ public class PatientAgent extends Agent {
                         else {
                             Integer newAppointmentID = appointments.size();
                             Appointment newAppointment = new Appointment(newAppointmentID, patientEmail,
-                                    doctorEmail, dateTime, DoctorsMessages.HOURLY_WAGE, Boolean.FALSE);
+                                    doctorEmail, dateTime, DoctorsUtils.HOURLY_WAGE, Boolean.FALSE);
                             appointments.add(newAppointment);
                             content =  Messages.MESSAGE_SUCCESS;
                             content = content.concat(Messages.DELIMITER);
                             content = content.concat(newAppointmentID.toString());
                             content = content.concat(Messages.DELIMITER);
-                            content = content.concat(DoctorsMessages.HOURLY_WAGE.toString());
+                            content = content.concat(DoctorsUtils.HOURLY_WAGE.toString());
                         }
 
                         reply.setContent(content);
