@@ -15,7 +15,11 @@ public class Messages {
 
     public final static int AVAILABILITY_REQUEST = 7;
     public final static int AVAILABILITY_RESPONSE = 8;
-    
+
+    public final static int CREATE_APPOINTMENT_REQUEST = 9;
+    public final static int CREATE_APPOINTMENT_RESPONSE = 10;
+
+
     public final static String DELIMITER = "#";
 
     public final static String MESSAGE_SUCCESS = "success";
