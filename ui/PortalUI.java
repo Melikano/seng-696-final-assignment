@@ -1,5 +1,8 @@
 package ui;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 import agents.PortalAgent;
 
 public class PortalUI {
@@ -47,6 +50,15 @@ public class PortalUI {
 
     }
 
+    public void showDoctorList(ArrayList<ArrayList<String>> therapists)
+    {
+        HomeUI home = HomeUI.createUI();
+        home.disposeFrame();
+        ChooseDoctorUI therapistUI = ChooseDoctorUI.createUI();
+        therapistUI.tableHandler(therapists);
+        therapistUI.show();
+    }
+
     public void requestRegister(String name,String email,String phone,String password)
     {
         portalAgentInstance.registerRequest(name,email,phone,password);
@@ -91,6 +103,40 @@ public class PortalUI {
         }
     }
 
+    public void requestCreateAppointment(LocalDateTime appDateTime)
+    {
+        portalAgentInstance.createAppointmentRequest(appDateTime, this.patientEmail, this.therapistEmail);
+    }
+
+    public void requestAvailability(String therapistEmail)
+    {
+        portalAgentInstance.availabilityRequest(therapistEmail);
+    }
+
+    public void showAvailability(ArrayList<LocalDateTime> availabilityTimes)
+    {
+        ChooseDoctorUI doctorUI = ChooseDoctorUI.createUI();
+        doctorUI.disposeFrame();
+        //parse input to an array list of strings and show it in chooseTherapistUI
+        ChooseAppointmentUI appUI = ChooseAppointmentUI.createUI();
+        appUI.tableHandler(availabilityTimes);
+        appUI.show();
+    }
+
+    public void appointmentConfirm(boolean appConfirm, Integer appID, float amount)
+    {
+        this.appID = appID;
+        if (appConfirm)
+        {
+            ChooseAppointmentUI selectAPPUI = ChooseAppointmentUI.createUI();
+            selectAPPUI.showSuccessMessage();
+        }
+        else {
+            ChooseAppointmentUI selectAPPUI = ChooseAppointmentUI.createUI();
+            selectAPPUI.showFailureMessage();
+        }
+
+    }
 
 
 
