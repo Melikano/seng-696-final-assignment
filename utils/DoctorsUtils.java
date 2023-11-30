@@ -9,6 +9,8 @@ import entities.Calendar;
 import entities.Doctor;
 
 public class DoctorsUtils {
+        public final static Integer HOURLY_WAGE = 60; // In CAD for example
+
 
         public static Hashtable<String, Doctor> generateDoctors() {
                 // a sample doctor list is hard coded and returned in this func
