@@ -55,6 +55,37 @@ public class PortalAgent extends Agent {
                 if (msg != null) {
                     String[] payloadLst = msg.getContent().split(Messages.DELIMITER);
                     switch (msg.getPerformative()) {
+                        case Messages.REGISTER_RESPONSE:
+                            System.out.println("PORTAL: Received register confirmation");
+                            boolean registered = false;
+                            if (payloadLst[0].equals(Utils.MESSAGE_SUCCESS)) {
+                                registered = true;
+                            } else if (payloadLst[0].equals(Utils.MESSAGE_FAILURE)) {
+                                registered = false;
+                            }
+                            else
+                                assert true : "UNKNOWN REGISTRATION MESSAGE";
+                            PortalUIInstance.registerConfirm(registered);
+                            break;
+
+                        case Messages.LOGIN_RESPONSE:
+                            System.out.println("PORTAL: Received login confirmations");
+                            String confirmation = payloadLst[0];
+                            boolean isAuthenticated = false;
+                            String name = "";
+                            if (confirmation.equals(Utils.MESSAGE_SUCCESS)) {
+                                isAuthenticated = true;
+                                name = payloadLst[1];
+                                System.out.println("PORTAL: Successfully logined user: " + name);
+                            } else if (confirmation.equals(Utils.MESSAGE_FAILURE)) {
+                                isAuthenticated = false;
+                                System.out.println("PORTAL: Failed to login");
+                            }
+                            else
+                                assert true : "UNKNOWN LOGIN MESSAGE";
+                            PortalUIInstance.loginConfirm(isAuthenticated, name);
+                            break;
+
                         case Messages.DOCTORS_LISTS_RESPONSE:
                             System.out.println("PORTAL: Received doctors list");
                             ArrayList<ArrayList<String>> doctorsLists = new ArrayList<>();
@@ -116,6 +147,43 @@ public class PortalAgent extends Agent {
             }
         });
     }
+    public void registerRequest(String name, String email, String phoneNumber, String password) {
+        addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                ACLMessage message = new ACLMessage(Utils.REGISTER_REQUEST);
+                List<String> payloadLst = Arrays.asList(name, password, email, phoneNumber);
+
+                String payload = String.join(Utils.DELIMITER, payloadLst);
+
+                System.out.println("PORTAL: Requesting to register " + email + " to " + accessAgent.getLocalName());
+
+                message.setContent(payload);
+                message.addReceiver(accessAgent);
+                send(message);
+            }
+        });
+    }
+
+    public void loginRequest(String email, String passwordHash) {
+        addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                ACLMessage message = new ACLMessage(Utils.LOGIN_REQUEST);
+                List<String> payloadLst = Arrays.asList(email, passwordHash);
+
+                String payload = String.join(Utils.DELIMITER, payloadLst);
+
+                System.out.println("PORTAL: Requesting to login " + email + " to " + accessAgent.getLocalName());
+
+                message.setContent(payload);
+                message.addReceiver(accessAgent);
+                send(message);
+            }
+        });
+    }
+
+
 
     public void createAppointmentRequest(LocalDateTime appDateTime, String patientEmail, String doctorEmail) {
         addBehaviour(new OneShotBehaviour() {
