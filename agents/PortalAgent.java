@@ -19,6 +19,9 @@ import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 
+
+import UserInterface;
+
 public class PortalAgent extends Agent {
     AID patientAgent;
     AID healthcareproviderAgent;
