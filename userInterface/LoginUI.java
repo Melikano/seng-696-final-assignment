@@ -5,8 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-import javax.xml.stream.FactoryConfigurationError;
+import entities.Cryptography;
 
 public class LoginUI extends UserInterface implements ActionListener {
     
@@ -69,7 +68,7 @@ public class LoginUI extends UserInterface implements ActionListener {
             {
                 this.showFailurePassword();
             }
-            String encryptedPassword = Cryptographer.encrypt(password);
+            String encryptedPassword = Cryptography.encrypt(password);
             PortalUI.returnSingleton().requestLoginUser(email, encryptedPassword);
         }
 

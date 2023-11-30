@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import entities.Cryptography;
 public class RegisterUI extends UserInterface implements ActionListener {
     JTextField emailTextField = new JTextField(20);
     JTextField passwordTextField = new JTextField(20);
@@ -82,7 +82,7 @@ public class RegisterUI extends UserInterface implements ActionListener {
                 return;
             }
 
-            String encryptedPassword = Cryptographer.encrypt(password);
+            String encryptedPassword = Cryptography.encrypt(password);
             PortalUI.returnSingleton().requestRegister(name,email,phone,encryptedPassword);
 
         }

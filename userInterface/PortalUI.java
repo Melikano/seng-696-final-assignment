@@ -1,11 +1,5 @@
-import javax.sound.sampled.Port;
-import javax.swing.*;
-import java.awt.*;
-import java.lang.reflect.Array;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
+
+import agents.PortalAgent;
 
 public class PortalUI {
     private static PortalUI singleton = null;
@@ -60,7 +54,7 @@ public class PortalUI {
     public void requestLoginUser(String email, String password)
     {
         this.patientEmail = email;
-        portalAgentInstance.authRequest(email, password);
+        portalAgentInstance.loginRequest(email, password);
     }
 
        public void loginConfirm(boolean loginConfirm, String name)
