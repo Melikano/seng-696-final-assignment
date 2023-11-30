@@ -1,3 +1,4 @@
+package entities;
 import java.util.Base64;
 
 public class Cryptography {
