@@ -38,8 +38,8 @@ public class PortalUI {
 
     public void startUI()
     {
-        AccessUI accessUIInstance = AccessUI.createUI();
-        accessUIInstance.show();
+        PatientUI patientUIInstance = PatientUI.createUI();
+        patientUIInstance.show();
 
 
     }
