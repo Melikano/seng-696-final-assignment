@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 import javax.xml.stream.FactoryConfigurationError;
 
-public class LoginUI extends UI implements ActionListener {
+public class LoginUI extends UserInterface implements ActionListener {
     
     JTextField emailTextField = new JTextField(20);
     JTextField passwordTextField = new JTextField(20);
@@ -70,7 +70,7 @@ public class LoginUI extends UI implements ActionListener {
                 this.showFailurePassword();
             }
             String encryptedPassword = Cryptographer.encrypt(password);
-            PortalGUI.returnSingleton().requestLoginUser(email, encryptedPassword);
+            PortalUI.returnSingleton().requestLoginUser(email, encryptedPassword);
         }
 
     }
