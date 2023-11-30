@@ -23,7 +23,7 @@ public class PortalAgent extends Agent {
     AID patientAgent;
     AID healthcareproviderAgent;
 
-    PortalGUI PortalUIInstance = PortalGUI.createUI(this);
+    PortalUI PortalUIInstance = PortalUI.createUI(this);
 
     protected void setup() {
 
