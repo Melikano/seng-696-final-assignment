@@ -1,12 +1,18 @@
 package agents;
-import java.time.format.DateTimeFormatter;
-import java.util.Hashtable;
-import java.util.Set;
-
-import org.jcp.xml.dsig.internal.dom.Utils;
-
-import entities.Doctor;
 import jade.core.Agent;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
+import jade.lang.acl.ACLMessage;
+import jade.core.AID;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.time.*;
+import java.util.*;
+import java.util.ArrayList;
+import entities.Doctor;
 import utils.Messages;
 import utils.DoctorsUtils;
 
