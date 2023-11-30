@@ -14,7 +14,7 @@ public class Patient extends Person {
         this.medications = medications;
     }
 
-    public ArrayList<Calendar> getMedications() {
+    public ArrayList<Medication> getMedications() {
         return this.medications;
     }
 

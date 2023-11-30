@@ -19,7 +19,7 @@ public class Medication {
         this.availability = availability;
     }
 
-    public void getAvailability() {
+    public int getAvailability() {
         return availability;
     }
 
@@ -28,7 +28,7 @@ public class Medication {
         this.price = price;
     }
 
-    public void getPrice() {
+    public float getPrice() {
         return price;
     }
 
