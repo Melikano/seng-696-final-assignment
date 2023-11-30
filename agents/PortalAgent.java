@@ -1,8 +1,9 @@
+package agents;
+
 import FIPA.DateTime;
 import jade.core.Agent;
 import jade.domain.FIPAAgentManagement.FailureException;
 import jade.lang.acl.ACLMessage;
-import utils.Messages;
 import jade.core.AID;
 import jade.core.behaviours.*;
 
@@ -10,9 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.jcp.xml.dsig.internal.dom.Utils;
-
 import java.time.LocalDateTime;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
@@ -20,11 +18,16 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 
-import UserInterface;
+import utils.Messages;
+import utils.ServiceSearch;
+import ui.PortalUI;
 
 public class PortalAgent extends Agent {
     AID patientAgent;
     AID healthcareproviderAgent;
+    AID insuranceAgent;
+    AID laboratoryAgent;
+    AID pharmacyAgent;
 
     PortalUI PortalUIInstance = PortalUI.createUI(this);
 
@@ -39,16 +42,16 @@ public class PortalAgent extends Agent {
         addBehaviour(new OneShotBehaviour() {
             @Override
             public void action() {
-                PatientAgent = Messages.searchForService(myAgent, "patient");
-                healthCareProviderAgent = Messages.searchForService(myAgent, "healthcareprovider");
-                InsuranceAgent = Messages.searchForService(myAgent, "insurace");
-                LaboratoryAgent = Messages.searchForService(myAgent, "laboratory");
-                PharmacyAgent = Messages.searchForService(myAgent, "pharmacy");
+                patientAgent = ServiceSearch.searchForService(myAgent, "patient");
+                healthcareproviderAgent = ServiceSearch.searchForService(myAgent, "healthcareprovider");
+                insuranceAgent = ServiceSearch.searchForService(myAgent, "insurace");
+                laboratoryAgent = ServiceSearch.searchForService(myAgent, "laboratory");
+                pharmacyAgent = ServiceSearch.searchForService(myAgent, "pharmacy");
 
             }
         });
 
-        PortalUIInstance.startGUI();
+        PortalUIInstance.startUI();
         addBehaviour(new CyclicBehaviour() {
             public void action() {
 
@@ -159,10 +162,10 @@ public class PortalAgent extends Agent {
 
                 String payload = String.join(Messages.DELIMITER, payloadLst);
 
-                System.out.println("PORTAL: Requesting to register " + email + " to " + accessAgent.getLocalName());
+                System.out.println("PORTAL: Requesting to register " + email + " to " + patientAgent.getLocalName());
 
                 message.setContent(payload);
-                message.addReceiver(accessAgent);
+                message.addReceiver(patientAgent);
                 send(message);
             }
         });
@@ -177,10 +180,10 @@ public class PortalAgent extends Agent {
 
                 String payload = String.join(Messages.DELIMITER, payloadLst);
 
-                System.out.println("PORTAL: Requesting to login " + email + " to " + accessAgent.getLocalName());
+                System.out.println("PORTAL: Requesting to login " + email + " to " + patientAgent.getLocalName());
 
                 message.setContent(payload);
-                message.addReceiver(accessAgent);
+                message.addReceiver(patientAgent);
                 send(message);
             }
         });
