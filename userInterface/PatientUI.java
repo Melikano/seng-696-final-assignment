@@ -1,9 +1,10 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PatientUI extends UI implements ActionListener {
+public class PatientUI extends UserInterface implements ActionListener {
 
     JLabel descriptionTextField = new JLabel("Please login or register.");
 
