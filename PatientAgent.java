@@ -49,7 +49,7 @@ public class PatientAgent extends Agent {
 
         addBehaviour(new PatientAgent.userLoginServer());   
 
-        //addBehaviour(new PatientAgent.appointmentServer());    
+        addBehaviour(new PatientAgent.appointmentServer());    
  
 
     }
@@ -144,7 +144,6 @@ public class PatientAgent extends Agent {
 
 
     private class appointmentServer extends CyclicBehaviour{
-        @Override
         public void action() {
             ACLMessage msg;
             msg = myAgent.receive();
