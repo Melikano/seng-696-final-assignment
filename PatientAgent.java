@@ -81,7 +81,7 @@ public class PatientAgent extends Agent {
                 String info = msg.getContent();
                 String[] newInfo = info.split(Messages.DELIMITER);
                 ArrayList<Medication> medications = new ArrayList<Medication>();
-                Patient newPatient = new Patient(newInfo[0], newInfo[1], newInfo[2], newInfo[3], medications);
+                Patient newPatient = new Patient(newInfo[0], newInfo[2], newInfo[3], newInfo[1], medications);
 
                 System.out.println("Patient: Received a register request for user: " + newPatient.getEmail());
 
@@ -141,7 +141,6 @@ public class PatientAgent extends Agent {
 
 
     private class appointmentServer extends CyclicBehaviour{
-        @Override
         public void action() {
             ACLMessage msg;
             msg = myAgent.receive();
