@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class HomeUI extends UserInterface implements ActionListener  {
+public class HomeUI extends UserInterface implements ActionListener {
     JLabel welcomeTextLabel = new JLabel();
     JButton doctorsButton = new JButton("Doctors List");
     private static HomeUI singleton = null;
@@ -26,11 +26,8 @@ public class HomeUI extends UserInterface implements ActionListener  {
         frame.pack();
     }
 
-
-    public static HomeUI createUI()
-    {
-        if (singleton == null)
-        {
+    public static HomeUI createUI() {
+        if (singleton == null) {
             singleton = new HomeUI("Home");
 
         }
@@ -38,13 +35,17 @@ public class HomeUI extends UserInterface implements ActionListener  {
 
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == doctorsButton) {
+            this.disposeFrame();
+            PortalUI portal = PortalUI.returnSingleton();
+            portal.requestDoctorsList();
+        }
 
     }
-    public void setName(String name)
-    {
+
+    public void setName(String name) {
         welcomeTextLabel.setText("Welcome user " + name);
     }
 }

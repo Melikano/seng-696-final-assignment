@@ -9,12 +9,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import java.time.LocalDateTime;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
-
 
 public class PortalAgent extends Agent {
     AID patientAgent;
@@ -62,8 +62,7 @@ public class PortalAgent extends Agent {
                                 registered = true;
                             } else if (payloadLst[0].equals(Messages.MESSAGE_FAILURE)) {
                                 registered = false;
-                            }
-                            else
+                            } else
                                 assert true : "UNKNOWN REGISTRATION MESSAGE";
                             PortalUIInstance.registerConfirm(registered);
                             break;
@@ -80,16 +79,17 @@ public class PortalAgent extends Agent {
                             } else if (confirmation.equals(Messages.MESSAGE_FAILURE)) {
                                 isAuthenticated = false;
                                 System.out.println("PORTAL: Failed to login");
-                            }
-                            else
+                            } else
                                 assert true : "UNKNOWN LOGIN MESSAGE";
                             PortalUIInstance.loginConfirm(isAuthenticated, name);
                             break;
 
                         case Messages.DOCTORS_LISTS_RESPONSE:
                             System.out.println("PORTAL: Received doctors list");
+                            System.out.println(payloadLst.length);
+
                             ArrayList<ArrayList<String>> doctorsLists = new ArrayList<>();
-                            for (int i = 0; i < payloadLst.length; i++) {
+                            for (int i = 0; i <= payloadLst.length; i++) {
                                 if (i % 3 == 0 && i != 0) {
                                     ArrayList<String> doctorInfo = new ArrayList<>();
                                     doctorInfo.add(payloadLst[i - 3]);
@@ -147,6 +147,7 @@ public class PortalAgent extends Agent {
             }
         });
     }
+
     public void registerRequest(String name, String email, String phoneNumber, String password) {
         addBehaviour(new OneShotBehaviour() {
             @Override
@@ -183,7 +184,20 @@ public class PortalAgent extends Agent {
         });
     }
 
+    public void doctorsListRequest() {
+        addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                ACLMessage message = new ACLMessage(Messages.DOCTORS_LISTS_REQUEST);
 
+                System.out.println(
+                        "PORTAL: Requesting to get doctors list from " + healthcareproviderAgent.getLocalName());
+
+                message.addReceiver(healthcareproviderAgent);
+                send(message);
+            }
+        });
+    }
 
     public void createAppointmentRequest(LocalDateTime appDateTime, String patientEmail, String doctorEmail) {
         addBehaviour(new OneShotBehaviour() {

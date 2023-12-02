@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ChooseDoctorUI extends UserInterface implements ActionListener  {
-    JLabel descriptionTextField = new JLabel("Available times for the selected therapist:");
-    JTextField therapistNumTextField = new JTextField("         ");
+    JLabel descriptionTextField = new JLabel("Available times for the selected doctor:");
+    JTextField doctortNumTextField = new JTextField("         ");
     JPanel panel = new JPanel();
     JList<String> appointmentData;
     JButton goBackHome = new JButton("Home");
@@ -36,7 +36,7 @@ public class ChooseDoctorUI extends UserInterface implements ActionListener  {
     {
         if (singleton == null)
         {
-            singleton = new ChooseDoctorUI("Therapist");
+            singleton = new ChooseDoctorUI("Doctor");
 
         }
         return singleton;
@@ -45,9 +45,9 @@ public class ChooseDoctorUI extends UserInterface implements ActionListener  {
     public void tableHandler(ArrayList<ArrayList<String>> doctors)
     {
         this.doctors = doctors;
-        //parse input to an array list of strings and show it in chooseTherapistUI
+        //parse input to an array list of strings and show it in chooseDoctorUI
         String[][] doctorsList = new String[doctors.size()][3];
-        int therapistCounter = 0;
+        int doctortCounter = 0;
         for (int i=0; i< doctors.size();i++)
         {
             String[] tempArray = new String[4];
@@ -57,16 +57,16 @@ public class ChooseDoctorUI extends UserInterface implements ActionListener  {
             String profession = doctors.get(i).get(1);
             tempArray[2] = profession;
 
-            doctorsList[therapistCounter] = tempArray;
-            therapistCounter += 1;
+            doctorsList[doctortCounter] = tempArray;
+            doctortCounter += 1;
         }
-        String[] columnNames = { "ID", "Therapist Name", "Therapist Profession"};
+        String[] columnNames = { "ID", "Doctor Name", "Doctor Profession"};
         DefaultTableModel model = new DefaultTableModel(doctorsList, columnNames);
 
         this.appointmentsTable = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(appointmentsTable);
         panel.add(scrollPane);
-        panel.add(therapistNumTextField);
+        panel.add(doctortNumTextField);
         panel.add(submitButton);
         panel.add(goBackHome);
         frame.pack();
@@ -78,7 +78,7 @@ public class ChooseDoctorUI extends UserInterface implements ActionListener  {
 
         if (e.getSource() == this.submitButton)
         {
-            String numberString = therapistNumTextField.getText();
+            String numberString = doctortNumTextField.getText();
             numberString = numberString.replaceAll("\\s+","");
             int number = Integer.parseInt(numberString);
             if (number < 0 || number >= doctors.size())

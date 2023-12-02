@@ -24,7 +24,7 @@ public class ChooseAppointmentUI extends UserInterface implements ActionListener
         super(frameTitle);
         panel.setPreferredSize(new Dimension(500, 500));
         descriptionTextField.setPreferredSize(new Dimension(400, 40));
-        descriptionTextField.setText("Availability times for selected therapist");
+        descriptionTextField.setText("Availability times for selected doctor");
         panel.setLayout(new FlowLayout());
         panel.add(descriptionTextField);
         frame.setLayout(new FlowLayout());
@@ -54,7 +54,7 @@ public class ChooseAppointmentUI extends UserInterface implements ActionListener
     {
 
         this.availabilities = availabilities;
-        //parse input to an array list of strings and show it in chooseTherapistUI
+        //parse input to an array list of strings and show it in chooseDoctorUI
         String[][] avalabilityList = new String[availabilities.size()][2];
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         int avalabilityCounter = 0;

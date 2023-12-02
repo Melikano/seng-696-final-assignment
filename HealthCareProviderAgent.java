@@ -47,19 +47,22 @@ public class HealthCareProviderAgent extends Agent {
                             //geting a message from portal and iterate over the doctors to get the three fields
                             ACLMessage replyDoctorsList = msg.createReply();
                             replyDoctorsList.setPerformative(Messages.DOCTORS_LISTS_RESPONSE);
+                            System.out.println(doctors);
                             Set<String> setOfKeys = doctors.keySet();
+                            System.out.println(setOfKeys);
                             for (String key : setOfKeys)
                             {
                                 content = content.concat(doctors.get(key).getName());
-                                content = content.concat("-");
+                                content = content.concat(Messages.DELIMITER);
                                 content = content.concat(doctors.get(key).getSpeciality());
-                                content = content.concat("-");
+                                content = content.concat(Messages.DELIMITER);
                                 content = content.concat(doctors.get(key).getEmail());
-                                content = content.concat("-");
+                                content = content.concat(Messages.DELIMITER);
                             }
                             System.out.println("HEALTHCARE_PROVIDER: Sending doctors' list back to portal");
 
                             replyDoctorsList.setContent(content);
+                            System.out.println(content);
                             send(replyDoctorsList);
                             break;
                         case Messages.AVAILABILITY_REQUEST:

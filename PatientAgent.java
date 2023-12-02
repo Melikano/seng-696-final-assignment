@@ -45,11 +45,9 @@ public class PatientAgent extends Agent {
         }
 
         
-       addBehaviour(new PatientAgent.userRegServer());
-
+        addBehaviour(new PatientAgent.userRegServer());
         addBehaviour(new PatientAgent.userLoginServer());   
-
-        addBehaviour(new PatientAgent.appointmentServer());    
+        //addBehaviour(new PatientAgent.appointmentServer());    
  
 
     }
@@ -77,7 +75,7 @@ public class PatientAgent extends Agent {
         public void action(){
             MessageTemplate mt=MessageTemplate.MatchPerformative(Messages.REGISTER_REQUEST);
             ACLMessage msg=myAgent.receive(mt);
-            System.out.println("Patient: Received a register request for user: ");
+            System.out.println(msg);
 
             if (msg!=null){
                 String info = msg.getContent();
@@ -110,10 +108,12 @@ public class PatientAgent extends Agent {
     private class userLoginServer extends CyclicBehaviour{
         @Override
         public void action() {
-            System.out.println("Patient: Received a login request for user: ");
-            MessageTemplate mt=MessageTemplate.MatchPerformative(Messages.LOGIN_REQUEST);
-            ACLMessage msg=myAgent.receive(mt);
+            MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.LOGIN_REQUEST);
+            ACLMessage msg = myAgent.receive(mt);
+            System.out.println(msg);
+
             if (msg!=null){
+                System.out.println("heelloo");
                 String info = msg.getContent();
                 String[] newInfo = info.split(Messages.DELIMITER);
 
@@ -144,9 +144,11 @@ public class PatientAgent extends Agent {
 
 
     private class appointmentServer extends CyclicBehaviour{
+        @Override
         public void action() {
-            ACLMessage msg;
-            msg = myAgent.receive();
+            MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.CREATE_APPOINTMENT_REQUEST);
+            ACLMessage msg = myAgent.receive(mt);
+            System.out.println(msg);
 
             if (msg != null) {
                 String[] payloadLst = msg.getContent().split(Messages.DELIMITER);

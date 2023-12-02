@@ -7,7 +7,7 @@ public class PortalUI {
     private static PortalUI singleton = null;
     PortalAgent portalAgentInstance;
     String patientEmail;
-    String therapistEmail;
+    String doctorEmail;
     String patientName;
     Integer appID;
     private PortalUI(PortalAgent portalAgentInstance)
@@ -48,13 +48,13 @@ public class PortalUI {
 
     }
 
-    public void showDoctorList(ArrayList<ArrayList<String>> therapists)
+    public void showDoctorList(ArrayList<ArrayList<String>> doctors)
     {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
-        ChooseDoctorUI therapistUI = ChooseDoctorUI.createUI();
-        therapistUI.tableHandler(therapists);
-        therapistUI.show();
+        ChooseDoctorUI doctorUI = ChooseDoctorUI.createUI();
+        doctorUI.tableHandler(doctors);
+        doctorUI.show();
     }
 
     public void requestRegister(String name,String email,String phone,String password)
@@ -101,21 +101,25 @@ public class PortalUI {
         }
     }
 
+    public void requestDoctorsList()
+    {
+        portalAgentInstance.doctorsListRequest();
+    }
     public void requestCreateAppointment(LocalDateTime appDateTime)
     {
-        portalAgentInstance.createAppointmentRequest(appDateTime, this.patientEmail, this.therapistEmail);
+        portalAgentInstance.createAppointmentRequest(appDateTime, this.patientEmail, this.doctorEmail);
     }
 
-    public void requestAvailability(String therapistEmail)
+    public void requestAvailability(String doctorEmail)
     {
-        portalAgentInstance.availabilityRequest(therapistEmail);
+        portalAgentInstance.availabilityRequest(doctorEmail);
     }
 
     public void showAvailability(ArrayList<LocalDateTime> availabilityTimes)
     {
         ChooseDoctorUI doctorUI = ChooseDoctorUI.createUI();
         doctorUI.disposeFrame();
-        //parse input to an array list of strings and show it in chooseTherapistUI
+        //parse input to an array list of strings and show it in chooseDoctorUI
         ChooseAppointmentUI appUI = ChooseAppointmentUI.createUI();
         appUI.tableHandler(availabilityTimes);
         appUI.show();
