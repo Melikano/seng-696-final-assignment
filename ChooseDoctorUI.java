@@ -80,11 +80,13 @@ public class ChooseDoctorUI extends UserInterface implements ActionListener {
                 return;
             }
             System.out.println("selected: " + number);
+            this.panel.removeAll();
             PortalUI.returnSingleton().requestAvailability(doctors.get(number).get(2));
 
         }
         if (e.getSource() == this.goBackHome) {
             this.disposeFrame();
+            this.panel.removeAll();
             HomeUI homeUIInstance = HomeUI.createUI();
             homeUIInstance.show();
 

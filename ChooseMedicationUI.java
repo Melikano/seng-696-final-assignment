@@ -86,6 +86,7 @@ public class ChooseMedicationUI extends UserInterface implements ActionListener 
         }
         if (e.getSource() == this.goBackHome) {
             this.disposeFrame();
+            this.panel.removeAll();
             HomeUI homeUIInstance = HomeUI.createUI();
             homeUIInstance.show();
 
