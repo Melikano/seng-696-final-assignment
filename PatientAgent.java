@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 import java.time.*;
 import java.util.*;
 
-
 public class PatientAgent extends Agent {
 
     ArrayList<Appointment> appointments;
@@ -70,7 +69,6 @@ public class PatientAgent extends Agent {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.REGISTER_REQUEST);
             ACLMessage msg = myAgent.receive(mt);
-            System.out.println(msg);
 
             if (msg != null) {
                 String info = msg.getContent();
@@ -104,7 +102,6 @@ public class PatientAgent extends Agent {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.LOGIN_REQUEST);
             ACLMessage msg = myAgent.receive(mt);
-            System.out.println(msg);
 
             if (msg != null) {
                 System.out.println("heelloo");

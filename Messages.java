@@ -19,6 +19,9 @@ public class Messages {
     public final static int CREATE_APPOINTMENT_REQUEST = 10;
     public final static int CREATE_APPOINTMENT_RESPONSE = 11;
 
+    public final static int CONFIRM_APPOINTMENT_REQUEST = 12;
+    public final static int CONFIRM_APPOINTMENT_RESPONSE = 13;
+
 
     public final static String DELIMITER = "#";
 

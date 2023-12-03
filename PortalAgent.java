@@ -214,10 +214,33 @@ public class PortalAgent extends Agent {
                 String payload = String.join(Messages.DELIMITER, payloadLst);
 
                 System.out.println("PORTAL: Requesting to make an appointment on  " + appDateTime.toString()
-                        + " to " + patientAgent.getLocalName());
+                        + "for DR. " + doctorEmail + "to " + patientAgent.getLocalName());
 
                 message.setContent(payload);
                 message.addReceiver(patientAgent);
+                send(message);
+                confirmAppointmentRequest(appDateTime, doctorEmail);
+            }
+        });
+    }
+
+    public void confirmAppointmentRequest(LocalDateTime appDateTime, String doctorEmail) {
+        addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                System.out.println("DOCTOR EMAIL: " + doctorEmail);
+                ACLMessage message = new ACLMessage(Messages.CONFIRM_APPOINTMENT_REQUEST);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                String dateTimeStr = appDateTime.format(formatter);
+                List<String> payloadLst = Arrays.asList(dateTimeStr, doctorEmail);
+
+                String payload = String.join(Messages.DELIMITER, payloadLst);
+
+                System.out.println("PATIENT: Requesting to confirm an appointment on  " + appDateTime.toString()
+                        + " to " + healthcareproviderAgent.getLocalName());
+
+                message.setContent(payload);
+                message.addReceiver(healthcareproviderAgent);
                 send(message);
             }
         });
