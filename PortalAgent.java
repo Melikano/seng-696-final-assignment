@@ -125,6 +125,23 @@ public class PortalAgent extends Agent {
                             }
                             PortalUIInstance.appointmentConfirm(appointmentCreated, appointmentID, amount);
                             break;
+
+                        case Messages.MEDICATION_LIST_RESPONSE:
+                            System.out.println("PORTAL: Received medications list");
+                            System.out.println(payloadLst.length);
+
+                            ArrayList<ArrayList<String>> medicationList = new ArrayList<>();
+                            for (int i = 0; i <= payloadLst.length; i++) {
+                                if (i % 3 == 0 && i != 0) {
+                                    ArrayList<String> medicationInfo = new ArrayList<>();
+                                    medicationInfo.add(payloadLst[i - 3]);
+                                    medicationInfo.add(payloadLst[i - 2]);
+                                    medicationInfo.add(payloadLst[i - 1]);
+                                    medicationList.add(medicationInfo);
+                                }
+                            }
+                            PortalUIInstance.showMedicationList(medicationList);
+                            break;
                     }
                 }
             }
@@ -241,6 +258,21 @@ public class PortalAgent extends Agent {
 
                 message.setContent(payload);
                 message.addReceiver(healthcareproviderAgent);
+                send(message);
+            }
+        });
+    }
+
+    public void medicationListRequest() {
+        addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                ACLMessage message = new ACLMessage(Messages.MEDICATION_LIST_REQUEST);
+
+                System.out.println(
+                        "PORTAL: Requesting to get medication list from " + pharmacyAgent.getLocalName());
+
+                message.addReceiver(pharmacyAgent);
                 send(message);
             }
         });

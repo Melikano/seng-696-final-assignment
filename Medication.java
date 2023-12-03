@@ -12,6 +12,21 @@ public class Medication {
         this.availability = availability;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
 
     public void setAvailability(Integer availability) {
         this.availability = availability;
@@ -21,8 +36,7 @@ public class Medication {
         return availability;
     }
 
-
-    public void setPrice (Float price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 

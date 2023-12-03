@@ -9,7 +9,6 @@ public class Messages {
     public final static int LOGIN_REQUEST = 4;
     public final static int LOGIN_RESPONSE = 5;
 
-
     public final static int DOCTORS_LISTS_REQUEST = 6;
     public final static int DOCTORS_LISTS_RESPONSE = 7;
 
@@ -22,6 +21,8 @@ public class Messages {
     public final static int CONFIRM_APPOINTMENT_REQUEST = 12;
     public final static int CONFIRM_APPOINTMENT_RESPONSE = 13;
 
+    public final static int MEDICATION_LIST_REQUEST = 14;
+    public final static int MEDICATION_LIST_RESPONSE = 15;
 
     public final static String DELIMITER = "#";
 
