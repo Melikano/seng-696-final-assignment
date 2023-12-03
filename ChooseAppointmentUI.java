@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class ChooseAppointmentUI extends UserInterface implements ActionListener  {
+public class ChooseAppointmentUI extends UserInterface implements ActionListener {
     JLabel descriptionTextField = new JLabel("");
     JTextField avalNumTextField = new JTextField("          ");
     JPanel panel = new JPanel();
@@ -35,31 +35,28 @@ public class ChooseAppointmentUI extends UserInterface implements ActionListener
         frame.add(panel);
     }
 
-    public void show(String[] data)
-    {
+    public void show(String[] data) {
         frame.setVisible(true);
 
     }
-    public static ChooseAppointmentUI createUI()
-    {
-        if (singleton == null)
-        {
+
+    public static ChooseAppointmentUI createUI() {
+        if (singleton == null) {
             singleton = new ChooseAppointmentUI("past");
 
         }
         return singleton;
 
     }
-    public void tableHandler(ArrayList<LocalDateTime> availabilities)
-    {
+
+    public void tableHandler(ArrayList<LocalDateTime> availabilities) {
 
         this.availabilities = availabilities;
-        //parse input to an array list of strings and show it in chooseDoctorUI
+        // parse input to an array list of strings and show it in chooseDoctorUI
         String[][] avalabilityList = new String[availabilities.size()][2];
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         int avalabilityCounter = 0;
-        for (int i=0; i< availabilities.size();i++)
-        {
+        for (int i = 0; i < availabilities.size(); i++) {
             String[] tempArray = new String[2];
             tempArray[0] = Integer.toString(i);
             String time = availabilities.get(i).format(formatter);
@@ -67,7 +64,7 @@ public class ChooseAppointmentUI extends UserInterface implements ActionListener
             avalabilityList[avalabilityCounter] = tempArray;
             avalabilityCounter += 1;
         }
-        String[] columnNames = { "Number", "Date/Time",};
+        String[] columnNames = { "Number", "Date/Time", };
         DefaultTableModel model = new DefaultTableModel(avalabilityList, columnNames);
         this.appointmentsTable = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(appointmentsTable);
@@ -78,16 +75,13 @@ public class ChooseAppointmentUI extends UserInterface implements ActionListener
         frame.pack();
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == this.submitButton)
-        {
+        if (e.getSource() == this.submitButton) {
             String numberString = avalNumTextField.getText();
-            numberString = numberString.replaceAll("\\s+","");
+            numberString = numberString.replaceAll("\\s+", "");
             int number = Integer.parseInt(numberString);
-            if (number < 0 || number >= availabilities.size())
-            {
+            if (number < 0 || number >= availabilities.size()) {
                 showFailureNoOptions();
                 return;
             }
@@ -95,29 +89,26 @@ public class ChooseAppointmentUI extends UserInterface implements ActionListener
 
         }
 
-        if (e.getSource() == this.goBackHome)
-        {
+        if (e.getSource() == this.goBackHome) {
             this.disposeFrame();
-            PortalUI portal = PortalUI.returnSingleton();
-            portal.showHome();
+            HomeUI homeUIInstance = HomeUI.createUI();
+            homeUIInstance.show();
 
         }
 
     }
 
-    public void showFailureNoOptions()
-    {
+    public void showFailureNoOptions() {
         JOptionPane.showMessageDialog(null, "No options selected", "alert", JOptionPane.ERROR_MESSAGE);
 
     }
-    public void showFailureMessage()
-    {
+
+    public void showFailureMessage() {
         JOptionPane.showMessageDialog(null, "Creating appointment failed", "alert", JOptionPane.ERROR_MESSAGE);
 
     }
 
-        public void showSuccessMessage()
-    {
+    public void showSuccessMessage() {
         JOptionPane.showMessageDialog(null, "Creating appointment success", "alert", JOptionPane.INFORMATION_MESSAGE);
 
     }

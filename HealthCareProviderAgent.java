@@ -62,7 +62,6 @@ public class HealthCareProviderAgent extends Agent {
                             System.out.println("HEALTHCARE_PROVIDER: Sending doctors' list back to portal");
 
                             replyDoctorsList.setContent(content);
-                            System.out.println(content);
                             send(replyDoctorsList);
                             break;
                         case Messages.AVAILABILITY_REQUEST:
@@ -79,7 +78,7 @@ public class HealthCareProviderAgent extends Agent {
                                 for (int i = 0; i < selectedDoctor.getAvailability().size(); i++){
                                     if (!selectedDoctor.getAvailability().get(i).getReserved()) {
                                         content = content.concat(selectedDoctor.getAvailability().get(i).getStartingDateTime().format(formatter));
-                                        content = content.concat("-");
+                                        content = content.concat(Messages.DELIMITER);
                                     }
                                 }
                             }

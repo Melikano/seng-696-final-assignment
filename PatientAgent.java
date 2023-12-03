@@ -13,17 +13,16 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.time.*;
 import java.util.*;
-import java.util.ArrayList;
+
 
 public class PatientAgent extends Agent {
 
     ArrayList<Appointment> appointments;
-    private Hashtable<String,Patient> patients;
-
+    private Hashtable<String, Patient> patients;
 
     protected void setup() {
         appointments = new ArrayList<Appointment>();
-        patients = new Hashtable<String,Patient>();
+        patients = new Hashtable<String, Patient>();
 
         patients = PatientUtils.generatePatients();
 
@@ -39,25 +38,21 @@ public class PatientAgent extends Agent {
 
         try {
             DFService.register(this, dfd);
-        }
-        catch (FIPAException fe) {
+        } catch (FIPAException fe) {
             fe.printStackTrace();
         }
 
-        
         addBehaviour(new PatientAgent.userRegServer());
-        addBehaviour(new PatientAgent.userLoginServer());   
-        //addBehaviour(new PatientAgent.appointmentServer());    
- 
+        addBehaviour(new PatientAgent.userLoginServer());
+        addBehaviour(new PatientAgent.appointmentServer());
 
     }
 
-
-    public void updateUsers(Patient patient){
+    public void updateUsers(Patient patient) {
         patients.put(patient.getEmail(), patient);
     }
 
-    public boolean loginUser(String username, String password){
+    public boolean loginUser(String username, String password) {
 
         Patient patient = patients.get(username);
         boolean isAuthenticated = false;
@@ -68,16 +63,16 @@ public class PatientAgent extends Agent {
     }
 
     protected void takeDown() {
-        System.out.println("Patient-agent "+getAID().getName()+" terminating.");
+        System.out.println("Patient-agent " + getAID().getName() + " terminating.");
     }
 
-    private class userRegServer extends CyclicBehaviour{
-        public void action(){
-            MessageTemplate mt=MessageTemplate.MatchPerformative(Messages.REGISTER_REQUEST);
-            ACLMessage msg=myAgent.receive(mt);
+    private class userRegServer extends CyclicBehaviour {
+        public void action() {
+            MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.REGISTER_REQUEST);
+            ACLMessage msg = myAgent.receive(mt);
             System.out.println(msg);
 
-            if (msg!=null){
+            if (msg != null) {
                 String info = msg.getContent();
                 String[] newInfo = info.split(Messages.DELIMITER);
                 ArrayList<Medication> medications = new ArrayList<Medication>();
@@ -91,28 +86,27 @@ public class PatientAgent extends Agent {
 
                 if (patients.containsKey(newPatient.getEmail())) {
                     content = Messages.MESSAGE_FAILURE;
-                }
-                else {
+                } else {
                     updateUsers(newPatient);
                     content = Messages.MESSAGE_SUCCESS;
                 }
                 System.out.println("Patient: Sending registration confirmation back to portal");
                 reply.setContent(content);
                 myAgent.send(reply);
-            }
-            else {
+            } else {
                 block();
             }
         }
     }
-    private class userLoginServer extends CyclicBehaviour{
+
+    private class userLoginServer extends CyclicBehaviour {
         @Override
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.LOGIN_REQUEST);
             ACLMessage msg = myAgent.receive(mt);
             System.out.println(msg);
 
-            if (msg!=null){
+            if (msg != null) {
                 System.out.println("heelloo");
                 String info = msg.getContent();
                 String[] newInfo = info.split(Messages.DELIMITER);
@@ -123,84 +117,74 @@ public class PatientAgent extends Agent {
                 ACLMessage reply = msg.createReply();
                 reply.setPerformative(Messages.LOGIN_RESPONSE);
                 String content = "";
-                if (flag){
+                if (flag) {
                     String name = patients.get(newInfo[0]).getName();
                     content = Messages.MESSAGE_SUCCESS;
                     content = content.concat(Messages.DELIMITER);
                     content = content.concat(name);
-                }
-                else
+                } else
                     content = Messages.MESSAGE_FAILURE;
 
                 System.out.println("Patient: Sending login confirmation back to portal");
                 reply.setContent(content);
                 myAgent.send(reply);
-            }
-            else {
+            } else {
                 block();
             }
         }
     }
 
-
-    private class appointmentServer extends CyclicBehaviour{
-        @Override
+    private class appointmentServer extends CyclicBehaviour {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.CREATE_APPOINTMENT_REQUEST);
             ACLMessage msg = myAgent.receive(mt);
-            System.out.println(msg);
 
             if (msg != null) {
                 String[] payloadLst = msg.getContent().split(Messages.DELIMITER);
-                switch (msg.getPerformative()){
-                    case Messages.CREATE_APPOINTMENT_REQUEST:
-                        ACLMessage reply = msg.createReply();
-                        reply.setPerformative(Messages.CREATE_APPOINTMENT_RESPONSE);
-                        String content = "";
 
-                        String[] contentLst = msg.getContent().split(Messages.DELIMITER);
-                        String dateTimeStr = contentLst[0];
-                        String patientEmail = contentLst[1];
-                        String doctorEmail = contentLst[2];
+                ACLMessage reply = msg.createReply();
+                reply.setPerformative(Messages.CREATE_APPOINTMENT_RESPONSE);
+                String content = "";
 
-                        System.out.println("PATIENT: appointment creation received for " + patientEmail +
-                                " on " + dateTimeStr);
+                String[] contentLst = msg.getContent().split(Messages.DELIMITER);
+                String dateTimeStr = contentLst[0];
+                String patientEmail = contentLst[1];
+                String doctorEmail = contentLst[2];
 
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                        LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, formatter);
+                System.out.println("Patient: appointment creation received for " + patientEmail +
+                        " on " + dateTimeStr);
 
-                        boolean alreadyExists = false;
-                        for (Appointment appointment : appointments) {
-                            if (appointment.getPatientEmail().equals(patientEmail) &&
-                                    appointment.getDoctorEmail().equals(doctorEmail)) {
-                                alreadyExists = true;
-                                break;
-                            }
-                        }
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, formatter);
 
-                        if (alreadyExists){
-                            content = Messages.MESSAGE_FAILURE;
-                        }
-                        else {
-                            Integer newAppointmentID = appointments.size();
-                            Appointment newAppointment = new Appointment(newAppointmentID, patientEmail,
-                                    doctorEmail, dateTime, DoctorsUtils.HOURLY_WAGE, Boolean.FALSE);
-                            appointments.add(newAppointment);
-                            content =  Messages.MESSAGE_SUCCESS;
-                            content = content.concat(Messages.DELIMITER);
-                            content = content.concat(newAppointmentID.toString());
-                            content = content.concat(Messages.DELIMITER);
-                            content = content.concat(DoctorsUtils.HOURLY_WAGE.toString());
-                        }
-
-                        reply.setContent(content);
-                        send(reply);
+                boolean alreadyExists = false;
+                for (Appointment appointment : appointments) {
+                    if (appointment.getPatientEmail().equals(patientEmail) &&
+                            appointment.getDoctorEmail().equals(doctorEmail)) {
+                        alreadyExists = true;
                         break;
-
-                    default:
-                        break;
+                    }
                 }
+
+                if (alreadyExists) {
+                    content = Messages.MESSAGE_FAILURE;
+                } else {
+                    Integer newAppointmentID = appointments.size();
+                    Appointment newAppointment = new Appointment(newAppointmentID, patientEmail,
+                            doctorEmail, dateTime, DoctorsUtils.HOURLY_WAGE, Boolean.FALSE);
+                    appointments.add(newAppointment);
+                    content = Messages.MESSAGE_SUCCESS;
+                    content = content.concat(Messages.DELIMITER);
+                    content = content.concat(newAppointmentID.toString());
+                    content = content.concat(Messages.DELIMITER);
+                    content = content.concat(DoctorsUtils.HOURLY_WAGE.toString());
+                }
+
+                reply.setContent(content);
+                send(reply);
+
             }
         }
-     }
+
+    }
 }
