@@ -9,7 +9,7 @@ public class HomeUI extends UserInterface implements ActionListener {
     JButton doctorsButton = new JButton("Doctors List");
     JButton pharmacyButton = new JButton("Medications List");
     JButton laboratoryButton = new JButton("Tests List");
-    JButton insuraceButton = new JButton("Cart");
+    JButton insuraceButton = new JButton("Insurance List");
 
     private static HomeUI singleton = null;
     JPanel panel = new JPanel();
@@ -66,7 +66,7 @@ public class HomeUI extends UserInterface implements ActionListener {
         if (e.getSource() == insuraceButton) {
             this.disposeFrame();
             PortalUI portal = PortalUI.returnSingleton();
-            portal.requestPaymentList();
+            portal.requestInsuranceList();
         }
     }
 

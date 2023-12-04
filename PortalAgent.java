@@ -38,7 +38,7 @@ public class PortalAgent extends Agent {
             public void action() {
                 patientAgent = ServiceSearch.searchForService(myAgent, "patient");
                 healthcareproviderAgent = ServiceSearch.searchForService(myAgent, "healthcareprovider");
-                insuranceAgent = ServiceSearch.searchForService(myAgent, "insurace");
+                insuranceAgent = ServiceSearch.searchForService(myAgent, "insurance");
                 laboratoryAgent = ServiceSearch.searchForService(myAgent, "laboratory");
                 pharmacyAgent = ServiceSearch.searchForService(myAgent, "pharmacy");
 
@@ -161,6 +161,25 @@ public class PortalAgent extends Agent {
 
                             PortalUIInstance.showTestList(testList);
                             break;
+
+                            case Messages.INSURANCE_LIST_RESPONSE:
+                            System.out.println("PORTAL: Received insurances list");
+                            System.out.println(payloadLst.length);
+
+                            ArrayList<ArrayList<String>> insuraceList = new ArrayList<>();
+                            for (int i = 0; i <= payloadLst.length; i++) {
+                                if (i % 2 == 0 && i != 0) {
+                                    ArrayList<String> insuraceInfo = new ArrayList<>();
+                                    insuraceInfo.add(payloadLst[i - 2]);
+                                    insuraceInfo.add(payloadLst[i - 1]);
+                                    insuraceList.add(insuraceInfo);
+                                }
+                            }
+                            System.out.println("PORTAL: Received insurances list");
+
+                            PortalUIInstance.showInsuranceList(insuraceList);
+                            break;
+
                     }
                 }
             }
@@ -316,16 +335,20 @@ public class PortalAgent extends Agent {
     }
 
     
-    public void paymentListRequest() {
+    public void insuranceListRequest(String patientEmail) {
         addBehaviour(new OneShotBehaviour() {
             @Override
             public void action() {
-                ACLMessage message = new ACLMessage(Messages.MEDICATION_LIST_REQUEST);
+                ACLMessage message = new ACLMessage(Messages.INSURANCE_LIST_REQUEST);
+                String payload = String.join(Messages.DELIMITER, patientEmail);
+
 
                 System.out.println(
-                        "PORTAL: Requesting to get medication list from " + pharmacyAgent.getLocalName());
+                        "PORTAL: Requesting to get insurance list from " + insuranceAgent.getLocalName());
 
-                message.addReceiver(pharmacyAgent);
+                
+                message.setContent(payload);
+                message.addReceiver(insuranceAgent);
                 send(message);
             }
         });

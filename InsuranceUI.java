@@ -5,17 +5,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class TestUI extends UserInterface implements ActionListener {
-    JLabel descriptionTextField = new JLabel("List of all tests:");
+public class InsuranceUI extends UserInterface implements ActionListener {
+    JLabel descriptionTextField = new JLabel("List of all insurance:");
     JPanel panel = new JPanel();
     JList<String> appointmentData;
     JButton goBackHome = new JButton("Home");
-    JTable testsTable;
-    private static TestUI singleton = null;
+    JTable insuranceTable;
+    private static InsuranceUI singleton = null;
     JCheckBox[][] checkboxes;
-    ArrayList<ArrayList<String>> tests;
+    ArrayList<ArrayList<String>> insurance;
 
-    private TestUI(String frameTitle) {
+    private InsuranceUI(String frameTitle) {
         super(frameTitle);
         panel.setPreferredSize(new Dimension(500, 500));
         descriptionTextField.setPreferredSize(new Dimension(400, 40));
@@ -30,34 +30,34 @@ public class TestUI extends UserInterface implements ActionListener {
 
 
 
-    public void tableHandler(ArrayList<ArrayList<String>> tests) {
-        this.tests = tests;
+    public void tableHandler(ArrayList<ArrayList<String>> insurance) {
+        this.insurance = insurance;
         // parse input to an array list of strings and show it in chooseMedUI
-        String[][] testList = new String[tests.size()][2];
-        int testCounter = 0;
-        for (int i = 0; i < tests.size(); i++) {
+        String[][] insuraceList = new String[insurance.size()][2];
+        int insuranceCounter = 0;
+        for (int i = 0; i < insurance.size(); i++) {
             String[] tempArray = new String[3];
-            String name = tests.get(i).get(0);
+            String name = insurance.get(i).get(0);
             tempArray[0] = name;
-            String description = tests.get(i).get(1);
+            String description = insurance.get(i).get(1);
             tempArray[1] = description;
 
-            testList[testCounter] = tempArray;
-            testCounter += 1;
+            insuraceList[insuranceCounter] = tempArray;
+            insuranceCounter += 1;
         }
-        String[] columnNames = { "ID", "Description" };
-        DefaultTableModel model = new DefaultTableModel(testList, columnNames);
+        String[] columnNames = { "Price", "Covered By" };
+        DefaultTableModel model = new DefaultTableModel(insuraceList, columnNames);
 
-        this.testsTable = new JTable(model);
-        JScrollPane scrollPane = new JScrollPane(testsTable);
+        this.insuranceTable = new JTable(model);
+        JScrollPane scrollPane = new JScrollPane(insuranceTable);
         panel.add(scrollPane);
         panel.add(goBackHome);
         frame.pack();
     }
 
-    public static TestUI createUI() {
+    public static InsuranceUI createUI() {
         if (singleton == null) {
-            singleton = new TestUI("Hello");
+            singleton = new InsuranceUI("Hello");
 
         }
         return singleton;

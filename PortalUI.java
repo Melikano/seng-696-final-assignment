@@ -65,6 +65,15 @@ public class PortalUI {
         testUI.show();
     }
 
+    
+    public void showInsuranceList(ArrayList<ArrayList<String>> insurances) {
+        HomeUI home = HomeUI.createUI();
+        home.disposeFrame();
+
+        InsuranceUI insuranceUI = InsuranceUI.createUI();
+        insuranceUI.tableHandler(insurances);
+        insuranceUI.show();
+    }
 
     public void requestRegister(String name, String email, String phone, String password) {
         portalAgentInstance.registerRequest(name, email, phone, password);
@@ -114,8 +123,8 @@ public class PortalUI {
         portalAgentInstance.testsListRequest(this.patientEmail);
     }
 
-    public void requestPaymentList(){
-        portalAgentInstance.paymentListRequest();
+    public void requestInsuranceList(){
+        portalAgentInstance.insuranceListRequest(this.patientEmail);
     }
 
     public void requestCreateAppointment(LocalDateTime appDateTime) {
