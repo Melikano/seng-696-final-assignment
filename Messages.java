@@ -24,6 +24,9 @@ public class Messages {
     public final static int MEDICATION_LIST_REQUEST = 14;
     public final static int MEDICATION_LIST_RESPONSE = 15;
 
+    public final static int TEST_LIST_REQUEST = 16;
+    public final static int TEST_LIST_RESPONSE = 17;
+
     public final static String DELIMITER = "#";
 
     public final static String MESSAGE_SUCCESS = "success";

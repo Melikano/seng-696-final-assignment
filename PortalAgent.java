@@ -142,6 +142,25 @@ public class PortalAgent extends Agent {
                             }
                             PortalUIInstance.showMedicationList(medicationList);
                             break;
+
+
+                            case Messages.TEST_LIST_RESPONSE:
+                            System.out.println("PORTAL: Received tests list");
+                            System.out.println(payloadLst.length);
+
+                            ArrayList<ArrayList<String>> testList = new ArrayList<>();
+                            for (int i = 0; i <= payloadLst.length; i++) {
+                                if (i % 2 == 0 && i != 0) {
+                                    ArrayList<String> testInfo = new ArrayList<>();
+                                    testInfo.add(payloadLst[i - 2]);
+                                    testInfo.add(payloadLst[i - 1]);
+                                    testList.add(testInfo);
+                                }
+                            }
+                            System.out.println("PORTAL: Received tests list");
+
+                            PortalUIInstance.showTestList(testList);
+                            break;
                     }
                 }
             }
@@ -264,6 +283,40 @@ public class PortalAgent extends Agent {
     }
 
     public void medicationListRequest() {
+        addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                ACLMessage message = new ACLMessage(Messages.MEDICATION_LIST_REQUEST);
+
+                System.out.println(
+                        "PORTAL: Requesting to get medication list from " + pharmacyAgent.getLocalName());
+
+                message.addReceiver(pharmacyAgent);
+                send(message);
+            }
+        });
+    }
+
+
+    public void testsListRequest( String patientEmail) {
+        addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                ACLMessage message = new ACLMessage(Messages.TEST_LIST_REQUEST);
+                String payload = String.join(Messages.DELIMITER, patientEmail);
+
+                System.out.println(
+                        "PORTAL: Requesting to get test list for " + patientEmail + laboratoryAgent.getLocalName());
+
+                message.setContent(payload);
+                message.addReceiver(laboratoryAgent);
+                send(message);
+            }
+        });
+    }
+
+    
+    public void paymentListRequest() {
         addBehaviour(new OneShotBehaviour() {
             @Override
             public void action() {

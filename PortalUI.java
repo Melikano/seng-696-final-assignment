@@ -56,6 +56,16 @@ public class PortalUI {
         medicationUI.show();
     }
 
+    public void showTestList(ArrayList<ArrayList<String>> tests) {
+        HomeUI home = HomeUI.createUI();
+        home.disposeFrame();
+
+        TestUI testUI = TestUI.createUI();
+        testUI.tableHandler(tests);
+        testUI.show();
+    }
+
+
     public void requestRegister(String name, String email, String phone, String password) {
         portalAgentInstance.registerRequest(name, email, phone, password);
     }
@@ -98,6 +108,14 @@ public class PortalUI {
 
     public void requestMedicationsList(){
         portalAgentInstance.medicationListRequest();
+    }
+
+    public void requestTestsList(){
+        portalAgentInstance.testsListRequest(this.patientEmail);
+    }
+
+    public void requestPaymentList(){
+        portalAgentInstance.paymentListRequest();
     }
 
     public void requestCreateAppointment(LocalDateTime appDateTime) {
