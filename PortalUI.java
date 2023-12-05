@@ -2,6 +2,13 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 public class PortalUI {
     private static PortalUI singleton = null;
     PortalAgent portalAgentInstance;
@@ -56,16 +63,24 @@ public class PortalUI {
         medicationUI.show();
     }
 
-    public void showTestList(ArrayList<ArrayList<String>> tests) {
+    public void showTestList(Boolean exist, ArrayList<ArrayList<String>> tests) {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
 
+        if(exist == true){
         TestUI testUI = TestUI.createUI();
         testUI.tableHandler(tests);
         testUI.show();
+        }
+        else{
+            TestUI testUI = TestUI.createUI();
+            home.show();
+            testUI.showFailureMessage();
+        }
     }
 
     
+
     public void showInsuranceList(ArrayList<ArrayList<String>> insurances) {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();

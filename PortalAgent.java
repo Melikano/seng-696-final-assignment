@@ -147,19 +147,26 @@ public class PortalAgent extends Agent {
                             case Messages.TEST_LIST_RESPONSE:
                             System.out.println("PORTAL: Received tests list");
                             System.out.println(payloadLst.length);
+                            if(payloadLst.length == 1){
+                                System.out.println("PORTAL: HHHHHHH tests list");
+                                ArrayList<ArrayList<String>> testList = new ArrayList<>();
 
-                            ArrayList<ArrayList<String>> testList = new ArrayList<>();
-                            for (int i = 0; i <= payloadLst.length; i++) {
-                                if (i % 2 == 0 && i != 0) {
-                                    ArrayList<String> testInfo = new ArrayList<>();
-                                    testInfo.add(payloadLst[i - 2]);
-                                    testInfo.add(payloadLst[i - 1]);
-                                    testList.add(testInfo);
-                                }
+                                PortalUIInstance.showTestList(false, testList);
                             }
-                            System.out.println("PORTAL: Received tests list");
+                            else{
+                                ArrayList<ArrayList<String>> testList = new ArrayList<>();
+                                for (int i = 0; i <= payloadLst.length; i++) {
+                                    if (i % 2 == 0 && i != 0) {
+                                        ArrayList<String> testInfo = new ArrayList<>();
+                                        testInfo.add(payloadLst[i - 2]);
+                                        testInfo.add(payloadLst[i - 1]);
+                                        testList.add(testInfo);
+                                    }
+                                }
+                                System.out.println("PORTAL: Received tests list");
 
-                            PortalUIInstance.showTestList(testList);
+                                PortalUIInstance.showTestList(true, testList);
+                            }
                             break;
 
                             case Messages.INSURANCE_LIST_RESPONSE:
