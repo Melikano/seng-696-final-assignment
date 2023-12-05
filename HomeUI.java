@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 public class HomeUI extends UserInterface implements ActionListener {
     JLabel welcomeTextLabel = new JLabel();
     JButton doctorsButton = new JButton("Doctors List");
+    JButton appointmentsButton = new JButton("Past Appointments");
     JButton pharmacyButton = new JButton("Medications List");
     JButton laboratoryButton = new JButton("Tests List");
     JButton insuraceButton = new JButton("Insurance List");
@@ -18,6 +19,7 @@ public class HomeUI extends UserInterface implements ActionListener {
         super(frameTitle);
         panel.setPreferredSize(new Dimension(250, 250));
         doctorsButton.addActionListener(this);
+        appointmentsButton.addActionListener(this);
         pharmacyButton.addActionListener(this);
         laboratoryButton.addActionListener(this);
         insuraceButton.addActionListener(this);
@@ -25,10 +27,10 @@ public class HomeUI extends UserInterface implements ActionListener {
         panel.setLayout(new FlowLayout());
         panel.add(welcomeTextLabel);
         panel.add(doctorsButton);
+        panel.add(appointmentsButton);
         panel.add(pharmacyButton);
         panel.add(laboratoryButton);
         panel.add(insuraceButton);
-
 
         frame.setLayout(new FlowLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,6 +54,11 @@ public class HomeUI extends UserInterface implements ActionListener {
             this.disposeFrame();
             PortalUI portal = PortalUI.returnSingleton();
             portal.requestDoctorsList();
+        }
+        if (e.getSource() == appointmentsButton) {
+            this.disposeFrame();
+            PortalUI portal = PortalUI.returnSingleton();
+            portal.requestAppointmentsList();
         }
         if (e.getSource() == pharmacyButton) {
             this.disposeFrame();

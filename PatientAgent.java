@@ -44,6 +44,7 @@ public class PatientAgent extends Agent {
         addBehaviour(new PatientAgent.userRegServer());
         addBehaviour(new PatientAgent.userLoginServer());
         addBehaviour(new PatientAgent.appointmentServer());
+        addBehaviour(new PatientAgent.appointmentsListServer());
 
     }
 
@@ -180,6 +181,37 @@ public class PatientAgent extends Agent {
                 reply.setContent(content);
                 send(reply);
 
+            }
+        }
+
+    }
+
+    private class appointmentsListServer extends CyclicBehaviour {
+        public void action() {
+            MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.APPOINTMENTS_LIST_REQUEST);
+            ACLMessage msg = myAgent.receive(mt);
+
+            if (msg != null) {
+                System.out.println("PATIENT: appointments' list request received");
+                String content = "";
+                // geting a message from portal and iterate over the doctors to get the three
+                // fields
+                ACLMessage replyAppointmentsList = msg.createReply();
+                replyAppointmentsList.setPerformative(Messages.APPOINTMENTS_LIST_RESPONSE);
+                System.out.println(appointments);
+
+                for (Appointment appointment : appointments) {
+                    content = content.concat(String.valueOf(appointment.getAppointmentID()));
+                    content = content.concat(Messages.DELIMITER);
+                    content = content.concat(appointment.getDoctorEmail());
+                    content = content.concat(Messages.DELIMITER);
+                    content = content.concat(String.valueOf(appointment.getDateTime()));
+                    content = content.concat(Messages.DELIMITER);
+                }
+                System.out.println("PATIENT: Sending appointments' list back to portal");
+
+                replyAppointmentsList.setContent(content);
+                send(replyAppointmentsList);
             }
         }
 

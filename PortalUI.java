@@ -63,6 +63,16 @@ public class PortalUI {
         medicationUI.show();
     }
 
+
+
+    public void showAppointmentsList(ArrayList<ArrayList<String>> appointments) {
+        HomeUI home = HomeUI.createUI();
+        home.disposeFrame();
+        AppointmentsListUI appointmentsListUI = AppointmentsListUI.createUI();
+        appointmentsListUI.tableHandler(appointments);
+        appointmentsListUI.show();
+    }
+
     public void showTestList(Boolean exist, ArrayList<ArrayList<String>> tests) {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
@@ -136,6 +146,10 @@ public class PortalUI {
 
     public void requestDoctorsList() {
         portalAgentInstance.doctorsListRequest();
+    }
+
+    public void requestAppointmentsList(){
+        portalAgentInstance.appointmentsListRequest();
     }
 
     public void requestMedicationsList(){
