@@ -16,6 +16,9 @@ public class HomeUI extends UserInterface implements ActionListener {
     JButton appointmentButton = new JButton("Past Appointments List");
     JButton medicationButton = new JButton("Past Medication List");
 
+    JButton signoutButton = new JButton("Sign Out");
+
+
     private static HomeUI singleton = null;
     JPanel panel = new JPanel();
 
@@ -30,6 +33,8 @@ public class HomeUI extends UserInterface implements ActionListener {
         insuraceButton.addActionListener(this);
         appointmentButton.addActionListener(this);
         medicationButton.addActionListener(this);
+        signoutButton.addActionListener(this);
+
 
         panel.setLayout(new FlowLayout());
         panel.add(welcomeTextLabel);
@@ -39,6 +44,8 @@ public class HomeUI extends UserInterface implements ActionListener {
         panel.add(pharmacyButton);
         panel.add(laboratoryButton);
         panel.add(insuraceButton);
+        panel.add(signoutButton);
+
 
         frame.setLayout(new FlowLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,6 +69,13 @@ public class HomeUI extends UserInterface implements ActionListener {
             this.disposeFrame();
             PortalUI portal = PortalUI.returnSingleton();
             portal.requestDoctorsList();
+        }
+        if (e.getSource() == signoutButton) {
+            this.disposeFrame();
+            this.panel.removeAll();
+            PatientUI patientUIInstance = PatientUI.createUI();
+            patientUIInstance.show();
+
         }
         if (e.getSource() == appointmentsButton) {
             this.disposeFrame();
