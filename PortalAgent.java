@@ -161,6 +161,21 @@ public class PortalAgent extends Agent {
                             PortalUIInstance.showMedicationList(medicationList);
                             break;
 
+                        case Messages.PAST_MEDICATIONS_LIST_RESPONSE:
+                            System.out.println("PORTAL: Received medications list");
+                            System.out.println(payloadLst.length);
+
+                            ArrayList<ArrayList<String>> pasMedList = new ArrayList<>();
+                            for (int i = 0; i <= payloadLst.length; i++) {
+                                if (i % 2 == 0 && i != 0) {
+                                    ArrayList<String> medicationInfo = new ArrayList<>();
+                                    medicationInfo.add(payloadLst[i - 2]);
+                                    medicationInfo.add(payloadLst[i - 1]);
+                                    pasMedList.add(medicationInfo);
+                                }
+                            }
+                            PortalUIInstance.showPastMedicationList(pasMedList);
+                            break;
                         case Messages.TEST_LIST_RESPONSE:
                             System.out.println("PORTAL: Received tests list");
                             System.out.println(payloadLst.length);
@@ -357,6 +372,40 @@ public class PortalAgent extends Agent {
                         "PORTAL: Requesting to get medication list from " + pharmacyAgent.getLocalName());
 
                 message.addReceiver(pharmacyAgent);
+                send(message);
+            }
+        });
+    }
+
+    public void addMedicationRequest(Medication medication) {
+        addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                ACLMessage message = new ACLMessage(Messages.ADD_MEDICATION_REQUEST);
+                List<String> payloadLst = Arrays.asList(
+                        medication.getName(), medication.getDescription());
+
+                String payload = String.join(Messages.DELIMITER, payloadLst);
+
+                System.out.println("PORTAL: Requesting to add a medication to " + patientAgent.getLocalName());
+
+                message.setContent(payload);
+                message.addReceiver(patientAgent);
+                send(message);
+            }
+        });
+    }
+
+    public void pastMedicationsRequest() {
+        addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                ACLMessage message = new ACLMessage(Messages.PAST_MEDICATIONS_LIST_REQUEST);
+
+                System.out.println(
+                        "PORTAL: Requesting to get past medications list from " + patientAgent.getLocalName());
+
+                message.addReceiver(patientAgent);
                 send(message);
             }
         });

@@ -63,6 +63,13 @@ public class PortalUI {
         medicationUI.show();
     }
 
+    public void showPastMedicationList(ArrayList<ArrayList<String>> medications) {
+        HomeUI home = HomeUI.createUI();
+        home.disposeFrame();
+        MedicationsListUI medicationUI = MedicationsListUI.createUI();
+        medicationUI.tableHandler(medications);
+        medicationUI.show();
+    }
 
 
     public void showAppointmentsList(ArrayList<ArrayList<String>> appointments) {
@@ -152,8 +159,17 @@ public class PortalUI {
         portalAgentInstance.appointmentsListRequest();
     }
 
+    
+    public void requestPastMedicationsList(){
+        portalAgentInstance.pastMedicationsRequest();
+    }
+
     public void requestMedicationsList(){
         portalAgentInstance.medicationListRequest();
+    }
+
+    public void requestPasMedicationsList(){
+        portalAgentInstance.pastMedicationsRequest();
     }
 
     public void requestTestsList(){
@@ -166,6 +182,10 @@ public class PortalUI {
 
     public void requestCreateAppointment(LocalDateTime appDateTime) {
         portalAgentInstance.createAppointmentRequest(appDateTime, this.patientEmail, this.doctorEmail);
+    }
+
+    public void requestAddMedication(Medication medication) {
+        portalAgentInstance.addMedicationRequest(medication);
     }
 
     public void requestAvailability(String doctorEmail) {

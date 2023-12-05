@@ -7,17 +7,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class AppointmentsListUI extends UserInterface implements ActionListener {
-    JLabel descriptionTextField = new JLabel("List of all appointments:");
+public class MedicationsListUI extends UserInterface implements ActionListener {
+    JLabel descriptionTextField = new JLabel("List of all medications:");
     JPanel panel = new JPanel();
-    JList<String> appointmentData;
     JButton goBackHome = new JButton("Home");
-    JTable appointmentsTable;
-    private static AppointmentsListUI singleton = null;
+    JTable medicationsTable;
+    private static MedicationsListUI singleton = null;
     JCheckBox[][] checkboxes;
-    ArrayList<ArrayList<String>> appointments;
+    ArrayList<ArrayList<String>> medications;
 
-    private AppointmentsListUI(String frameTitle) {
+    private MedicationsListUI(String frameTitle) {
         super(frameTitle);
         panel.setPreferredSize(new Dimension(500, 500));
         descriptionTextField.setPreferredSize(new Dimension(400, 40));
@@ -30,40 +29,40 @@ public class AppointmentsListUI extends UserInterface implements ActionListener 
         frame.add(panel);
     }
 
-    public void tableHandler(ArrayList<ArrayList<String>> appointments) {
-        this.appointments = appointments;
+    public void tableHandler(ArrayList<ArrayList<String>> medications) {
+        this.medications = medications;
 
-        String[][] appointmentsList = new String[appointments.size()][2];
+        String[][] medicationsList = new String[medications.size()][2];
         int testCounter = 0;
-        for (int i = 0; i < appointments.size(); i++) {
-            String[] tempArray = new String[3];
-            String name = appointments.get(i).get(0);
+        for (int i = 0; i < medications.size(); i++) {
+            String[] tempArray = new String[2];
+            String name = medications.get(i).get(0);
             tempArray[0] = name;
-            String description = appointments.get(i).get(1);
+            String description = medications.get(i).get(1);
             tempArray[1] = description;
 
-            appointmentsList[testCounter] = tempArray;
+            medicationsList[testCounter] = tempArray;
             testCounter += 1;
         }
 
-        String[] columnNames = { "ID", "Doctor", "Date and Time" };
-        DefaultTableModel model = new DefaultTableModel(appointmentsList, columnNames);
+        String[] columnNames = { "Name", "Description" };
+        DefaultTableModel model = new DefaultTableModel(medicationsList, columnNames);
 
-        this.appointmentsTable = new JTable(model);
-        JScrollPane scrollPane = new JScrollPane(appointmentsTable);
+        this.medicationsTable = new JTable(model);
+        JScrollPane scrollPane = new JScrollPane(medicationsTable);
 
         panel.add(scrollPane);
-        if(appointments.size() == 0){
-            JLabel label = new JLabel("You don't have any appointments yet");
+        if (medications.size() == 0) {
+            JLabel label = new JLabel("You don't have any medications yet");
             panel.add(label);
         }
         panel.add(goBackHome);
         frame.pack();
     }
 
-    public static AppointmentsListUI createUI() {
+    public static MedicationsListUI createUI() {
         if (singleton == null) {
-            singleton = new AppointmentsListUI("Hello");
+            singleton = new MedicationsListUI("Hello");
 
         }
         return singleton;

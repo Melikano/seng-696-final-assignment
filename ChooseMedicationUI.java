@@ -9,7 +9,6 @@ public class ChooseMedicationUI extends UserInterface implements ActionListener 
     JLabel descriptionTextField = new JLabel("List of all medications:");
     JTextField medicationtNumTextField = new JTextField("         ");
     JPanel panel = new JPanel();
-    JList<String> appointmentData;
     JButton goBackHome = new JButton("Home");
     JTable medicationsTable;
     JButton submitButton = new JButton("submit");
@@ -81,7 +80,9 @@ public class ChooseMedicationUI extends UserInterface implements ActionListener 
                 showFailureNoOptions();
                 return;
             }
+            Medication newMed = new Medication(medications.get(number).get(0), medications.get(number).get(1), null, null);
             System.out.println("selected: " + number);
+            PortalUI.returnSingleton().requestAddMedication(newMed);
             JOptionPane.showMessageDialog(null, "Medication was successfully added to your cart!", "alert", JOptionPane.INFORMATION_MESSAGE);
         }
         if (e.getSource() == this.goBackHome) {

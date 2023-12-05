@@ -17,10 +17,13 @@ import java.util.*;
 public class PatientAgent extends Agent {
 
     ArrayList<Appointment> appointments;
+    ArrayList<Medication> medications;
+
     private Hashtable<String, Patient> patients;
 
     protected void setup() {
         appointments = new ArrayList<Appointment>();
+        medications = new ArrayList<Medication>();
         patients = new Hashtable<String, Patient>();
 
         patients = PatientUtils.generatePatients();
@@ -45,6 +48,8 @@ public class PatientAgent extends Agent {
         addBehaviour(new PatientAgent.userLoginServer());
         addBehaviour(new PatientAgent.appointmentServer());
         addBehaviour(new PatientAgent.appointmentsListServer());
+        addBehaviour(new PatientAgent.medicationServer());
+        addBehaviour(new PatientAgent.medicationsListServer());
 
     }
 
@@ -212,6 +217,62 @@ public class PatientAgent extends Agent {
 
                 replyAppointmentsList.setContent(content);
                 send(replyAppointmentsList);
+            }
+        }
+
+    }
+
+    private class medicationServer extends CyclicBehaviour {
+        public void action() {
+            MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.ADD_MEDICATION_REQUEST);
+            ACLMessage msg = myAgent.receive(mt);
+
+            if (msg != null) {
+                String[] payloadLst = msg.getContent().split(Messages.DELIMITER);
+
+                ACLMessage reply = msg.createReply();
+                reply.setPerformative(Messages.ADD_MEDICATION_RESPONSE);
+                String content = "";
+
+                String[] contentLst = msg.getContent().split(Messages.DELIMITER);
+                String medicationName = contentLst[0];
+                String medicationDesc = contentLst[1];
+
+                Medication newMedication = new Medication(medicationName, medicationDesc, null, null);
+                medications.add(newMedication);
+
+                reply.setContent(Messages.MESSAGE_SUCCESS);
+                send(reply);
+
+            }
+        }
+
+    }
+
+    private class medicationsListServer extends CyclicBehaviour {
+        public void action() {
+            MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.PAST_MEDICATIONS_LIST_REQUEST);
+            ACLMessage msg = myAgent.receive(mt);
+
+            if (msg != null) {
+                System.out.println("PATIENT: Past medications' list request received");
+                String content = "";
+                // geting a message from portal and iterate over the doctors to get the three
+                // fields
+                ACLMessage replyMedicationsList = msg.createReply();
+                replyMedicationsList.setPerformative(Messages.PAST_MEDICATIONS_LIST_RESPONSE);
+                System.out.println(medications);
+
+                for (Medication medication : medications) {
+                    content = content.concat(medication.getName());
+                    content = content.concat(Messages.DELIMITER);
+                    content = content.concat(medication.getDescription());
+                    content = content.concat(Messages.DELIMITER);
+                }
+                System.out.println("PATIENT: Sending past medications' list back to portal");
+
+                replyMedicationsList.setContent(content);
+                send(replyMedicationsList);
             }
         }
 
