@@ -10,6 +10,9 @@ public class HomeUI extends UserInterface implements ActionListener {
     JButton pharmacyButton = new JButton("Medications List");
     JButton laboratoryButton = new JButton("Tests List");
     JButton insuraceButton = new JButton("Insurance List");
+    
+    JButton appointmentButton = new JButton("Past Appointments List");
+    JButton medicationButton = new JButton("Past Medication List");
 
     private static HomeUI singleton = null;
     JPanel panel = new JPanel();
@@ -21,6 +24,8 @@ public class HomeUI extends UserInterface implements ActionListener {
         pharmacyButton.addActionListener(this);
         laboratoryButton.addActionListener(this);
         insuraceButton.addActionListener(this);
+        appointmentButton.addActionListener(this);
+        medicationButton.addActionListener(this);
 
         panel.setLayout(new FlowLayout());
         panel.add(welcomeTextLabel);
@@ -67,6 +72,18 @@ public class HomeUI extends UserInterface implements ActionListener {
             this.disposeFrame();
             PortalUI portal = PortalUI.returnSingleton();
             portal.requestInsuranceList();
+        }
+        
+        if (e.getSource() == appointmentButton) {
+            this.disposeFrame();
+            PortalUI portal = PortalUI.returnSingleton();
+            // portal.requestAppointmentsList();
+        }
+        
+        if (e.getSource() == medicationButton) {
+            this.disposeFrame();
+            PortalUI portal = PortalUI.returnSingleton();
+            // portal.requestMedicationList();
         }
     }
 

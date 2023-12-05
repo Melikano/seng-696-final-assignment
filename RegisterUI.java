@@ -13,6 +13,8 @@ public class RegisterUI extends UserInterface implements ActionListener {
     JTextField nameTextField = new JTextField(20);
     JTextField phoneTextField = new JTextField(20);
     JButton button = new JButton("Submit");
+    JButton goBackPortal = new JButton("Portal");
+
     JPanel panel = new JPanel();
     private static RegisterUI singleton = null;
 
@@ -29,12 +31,14 @@ public class RegisterUI extends UserInterface implements ActionListener {
         passwordTextField.setPreferredSize(new Dimension(250, 40));
         nameTextField.setPreferredSize(new Dimension(250, 40));
         button.addActionListener(this);
+        goBackPortal.addActionListener(this);
         panel.add(nameTextField);
         panel.add(emailTextField);
         panel.add(passwordTextField);
         panel.add(phoneTextField);
         panel.setLayout(new FlowLayout());
         panel.add(button);
+        panel.add(goBackPortal);
 
         frame.setLayout(new FlowLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,6 +50,16 @@ public class RegisterUI extends UserInterface implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == this.goBackPortal) {
+            
+            this.disposeFrame();
+            this.panel.removeAll();
+            PatientUI patientUIInstance = PatientUI.createUI();
+            patientUIInstance.show();
+
+        }
+
         if (e.getSource() == button)
         {
 
