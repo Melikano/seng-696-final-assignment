@@ -50,9 +50,9 @@ public class DoctorsUtils {
 
                 ArrayList<Calendar> timing4 = new ArrayList<Calendar>();
                 
-                timing3.add(calendar1);
-                timing3.add(calendar5);
-                timing3.add(calendar6);
+                timing4.add(calendar1);
+                timing4.add(calendar5);
+                timing4.add(calendar6);
 
                 Doctor doctor1 = new Doctor("Siamak Honardar", "siamak.honardar@gmail.com", "1234567", "Family Physician", timing);
                 Doctor doctor2 = new Doctor("Reza Rouhi", "reza.rouhi@gmail.com", "1111111", "Family Physician", timing2);

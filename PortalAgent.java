@@ -110,6 +110,8 @@ public class PortalAgent extends Agent {
                             for (String dateTimeStr : payloadLst) {
                                 dateTimes.add(LocalDateTime.parse(dateTimeStr, formatter));
                             }
+                            System.out.println("HHHH");
+
                             PortalUIInstance.showAvailability(dateTimes);
                             break;
 
