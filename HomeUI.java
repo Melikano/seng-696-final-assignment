@@ -6,12 +6,12 @@ import java.awt.event.ActionListener;
 
 public class HomeUI extends UserInterface implements ActionListener {
     JLabel welcomeTextLabel = new JLabel();
-    JButton doctorsButton = new JButton("Doctors List");
+    JButton doctorsButton = new JButton("Book Appointment");
     JButton appointmentsButton = new JButton("Past Appointments");
     JButton medicationsButton = new JButton("Past Medications");
-    JButton pharmacyButton = new JButton("Medications List");
-    JButton laboratoryButton = new JButton("Tests List");
-    JButton insuraceButton = new JButton("Insurance List");
+    JButton pharmacyButton = new JButton("Pharmacy");
+    JButton laboratoryButton = new JButton("Laboratory");
+    JButton insuraceButton = new JButton("Insurance");
 
     private static HomeUI singleton = null;
     JPanel panel = new JPanel();
