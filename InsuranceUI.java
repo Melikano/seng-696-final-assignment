@@ -45,7 +45,7 @@ public class InsuranceUI extends UserInterface implements ActionListener {
             insuraceList[insuranceCounter] = tempArray;
             insuranceCounter += 1;
         }
-        String[] columnNames = { "Price", "Covered By" };
+        String[] columnNames = { "Amount (The Currency is Canadian Dollar)", "Covered By" };
         DefaultTableModel model = new DefaultTableModel(insuraceList, columnNames);
 
         this.insuranceTable = new JTable(model);

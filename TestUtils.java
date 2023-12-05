@@ -18,12 +18,18 @@ public class TestUtils {
         LabTest testObj3 = new LabTest("robin.c@gmail.com",1113, "Calcium is high");
         LabTest testObj4 = new LabTest("sanaz.d@gmail.com",1114, "You are not bad");
         LabTest testObj5 = new LabTest("saina.d@gmail.com",1115,  "You have cancer");
+        LabTest testObj6 = new LabTest("saina.d@gmail.com",1117,  "Your Fe is low");
+
 
 
         tests.put(testObj1, testObj1.getEmail());
         tests.put(testObj2, testObj2.getEmail());
         tests.put(testObj3, testObj2.getEmail());
         tests.put(testObj4, testObj4.getEmail());
+        tests.put(testObj5, testObj5.getEmail());
+        tests.put(testObj6, testObj6.getEmail());
+
+
 
         return tests;
     }
