@@ -31,6 +31,15 @@ public class Messages {
     public final static int INSURANCE_LIST_REQUEST = 18;
     public final static int INSURANCE_LIST_RESPONSE = 19;
 
+    public final static int APPOINTMENTS_LIST_REQUEST = 20;
+    public final static int APPOINTMENTS_LIST_RESPONSE = 21;
+
+    public final static int ADD_MEDICATION_REQUEST = 22;
+    public final static int ADD_MEDICATION_RESPONSE = 23;
+
+    public final static int PAST_MEDICATIONS_LIST_REQUEST = 24;
+    public final static int PAST_MEDICATIONS_LIST_RESPONSE = 25;
+
     public final static String DELIMITER = "#";
 
     public final static String MESSAGE_SUCCESS = "success";

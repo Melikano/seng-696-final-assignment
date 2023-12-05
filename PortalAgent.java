@@ -126,6 +126,24 @@ public class PortalAgent extends Agent {
                             PortalUIInstance.appointmentConfirm(appointmentCreated, appointmentID, amount);
                             break;
 
+                        case Messages.APPOINTMENTS_LIST_RESPONSE:
+                            System.out.println("PORTAL: Received appointments list");
+                            System.out.println(payloadLst.length);
+                            ArrayList<ArrayList<String>> appointmenList = new ArrayList<>();
+                            for (int i = 0; i <= payloadLst.length; i++) {
+                                if (i % 2 == 0 && i != 0) {
+                                    ArrayList<String> appointmentInfo = new ArrayList<>();
+                                    appointmentInfo.add(payloadLst[i - 2]);
+                                    appointmentInfo.add(payloadLst[i - 1]);
+                                    appointmenList.add(appointmentInfo);
+                                }
+                            }
+                            System.out.println("PORTAL: Received appointments list");
+
+                            PortalUIInstance.showAppointmentsList(appointmenList);
+
+                            break;
+
                         case Messages.MEDICATION_LIST_RESPONSE:
                             System.out.println("PORTAL: Received medications list");
                             System.out.println(payloadLst.length);
@@ -143,17 +161,30 @@ public class PortalAgent extends Agent {
                             PortalUIInstance.showMedicationList(medicationList);
                             break;
 
+                        case Messages.PAST_MEDICATIONS_LIST_RESPONSE:
+                            System.out.println("PORTAL: Received medications list");
+                            System.out.println(payloadLst.length);
 
-                            case Messages.TEST_LIST_RESPONSE:
+                            ArrayList<ArrayList<String>> pasMedList = new ArrayList<>();
+                            for (int i = 0; i <= payloadLst.length; i++) {
+                                if (i % 2 == 0 && i != 0) {
+                                    ArrayList<String> medicationInfo = new ArrayList<>();
+                                    medicationInfo.add(payloadLst[i - 2]);
+                                    medicationInfo.add(payloadLst[i - 1]);
+                                    pasMedList.add(medicationInfo);
+                                }
+                            }
+                            PortalUIInstance.showPastMedicationList(pasMedList);
+                            break;
+                        case Messages.TEST_LIST_RESPONSE:
                             System.out.println("PORTAL: Received tests list");
                             System.out.println(payloadLst.length);
-                            if(payloadLst.length == 1){
+                            if (payloadLst.length == 1) {
                                 System.out.println("PORTAL: HHHHHHH tests list");
                                 ArrayList<ArrayList<String>> testList = new ArrayList<>();
 
                                 PortalUIInstance.showTestList(false, testList);
-                            }
-                            else{
+                            } else {
                                 ArrayList<ArrayList<String>> testList = new ArrayList<>();
                                 for (int i = 0; i <= payloadLst.length; i++) {
                                     if (i % 2 == 0 && i != 0) {
@@ -169,17 +200,16 @@ public class PortalAgent extends Agent {
                             }
                             break;
 
-                            case Messages.INSURANCE_LIST_RESPONSE:
+                        case Messages.INSURANCE_LIST_RESPONSE:
                             System.out.println("PORTAL: Received insurances list");
                             System.out.println(payloadLst.length);
 
-                            if(payloadLst.length == 1){
+                            if (payloadLst.length == 1) {
                                 System.out.println("PORTAL: HHHHHHH tests list");
                                 ArrayList<ArrayList<String>> insuraceList = new ArrayList<>();
 
                                 PortalUIInstance.showInsuranceList(false, insuraceList);
-                            }
-                            else{
+                            } else {
                                 ArrayList<ArrayList<String>> insuraceList = new ArrayList<>();
                                 for (int i = 0; i <= payloadLst.length; i++) {
                                     if (i % 2 == 0 && i != 0) {
@@ -189,10 +219,10 @@ public class PortalAgent extends Agent {
                                         insuraceList.add(insuraceInfo);
                                     }
                                 }
-                            
-                            System.out.println("PORTAL: Received insurances list");
 
-                            PortalUIInstance.showInsuranceList(true,insuraceList);
+                                System.out.println("PORTAL: Received insurances list");
+
+                                PortalUIInstance.showInsuranceList(true, insuraceList);
                             }
                             break;
 
@@ -295,6 +325,21 @@ public class PortalAgent extends Agent {
         });
     }
 
+    public void appointmentsListRequest() {
+        addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                ACLMessage message = new ACLMessage(Messages.APPOINTMENTS_LIST_REQUEST);
+
+                System.out.println(
+                        "PORTAL: Requesting to get appointments list from " + patientAgent.getLocalName());
+
+                message.addReceiver(patientAgent);
+                send(message);
+            }
+        });
+    }
+
     public void confirmAppointmentRequest(LocalDateTime appDateTime, String doctorEmail) {
         addBehaviour(new OneShotBehaviour() {
             @Override
@@ -332,8 +377,41 @@ public class PortalAgent extends Agent {
         });
     }
 
+    public void addMedicationRequest(Medication medication) {
+        addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                ACLMessage message = new ACLMessage(Messages.ADD_MEDICATION_REQUEST);
+                List<String> payloadLst = Arrays.asList(
+                        medication.getName(), medication.getDescription());
 
-    public void testsListRequest( String patientEmail) {
+                String payload = String.join(Messages.DELIMITER, payloadLst);
+
+                System.out.println("PORTAL: Requesting to add a medication to " + patientAgent.getLocalName());
+
+                message.setContent(payload);
+                message.addReceiver(patientAgent);
+                send(message);
+            }
+        });
+    }
+
+    public void pastMedicationsRequest() {
+        addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                ACLMessage message = new ACLMessage(Messages.PAST_MEDICATIONS_LIST_REQUEST);
+
+                System.out.println(
+                        "PORTAL: Requesting to get past medications list from " + patientAgent.getLocalName());
+
+                message.addReceiver(patientAgent);
+                send(message);
+            }
+        });
+    }
+
+    public void testsListRequest(String patientEmail) {
         addBehaviour(new OneShotBehaviour() {
             @Override
             public void action() {
@@ -350,7 +428,6 @@ public class PortalAgent extends Agent {
         });
     }
 
-    
     public void insuranceListRequest(String patientEmail) {
         addBehaviour(new OneShotBehaviour() {
             @Override
@@ -358,11 +435,9 @@ public class PortalAgent extends Agent {
                 ACLMessage message = new ACLMessage(Messages.INSURANCE_LIST_REQUEST);
                 String payload = String.join(Messages.DELIMITER, patientEmail);
 
-
                 System.out.println(
                         "PORTAL: Requesting to get insurance list from " + insuranceAgent.getLocalName());
 
-                
                 message.setContent(payload);
                 message.addReceiver(insuranceAgent);
                 send(message);
