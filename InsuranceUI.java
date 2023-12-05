@@ -78,5 +78,11 @@ public class InsuranceUI extends UserInterface implements ActionListener {
 
     }
 
+    public void showFailureMessage() {
+        
+        JOptionPane.showMessageDialog(null, "You are not covered by any insurance", "alert", JOptionPane.ERROR_MESSAGE);
+
+    }
+
 
 }

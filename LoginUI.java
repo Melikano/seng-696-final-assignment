@@ -12,6 +12,7 @@ public class LoginUI extends UserInterface implements ActionListener {
     JTextField emailTextField = new JTextField(20);
     JTextField passwordTextField = new JTextField(20);
     JButton button = new JButton("Submit");
+    JButton goBackHome = new JButton("Back");
     JPanel panel = new JPanel();
     private static LoginUI singleton = null;
 
@@ -25,10 +26,12 @@ public class LoginUI extends UserInterface implements ActionListener {
         passwordTextField.setText("Password");
         passwordTextField.setPreferredSize(new Dimension(250, 40));
         button.addActionListener(this);
+        goBackHome.addActionListener(this);
         panel.add(emailTextField);
         panel.add(passwordTextField);
         panel.setLayout(new FlowLayout());
         panel.add(button);
+        panel.add(goBackHome);
         frame.setLayout(new FlowLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(500, 600));
@@ -50,6 +53,14 @@ public class LoginUI extends UserInterface implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == this.goBackHome) {
+            this.disposeFrame();
+            this.panel.removeAll();
+            PatientUI patientUIInstance = PatientUI.createUI();
+            patientUIInstance.show();
+
+        }
+
         if (e.getSource() == button)
         {
             String email = emailTextField.getText();

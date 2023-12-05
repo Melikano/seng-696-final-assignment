@@ -83,8 +83,6 @@ public class TestUI extends UserInterface implements ActionListener {
         
         JOptionPane.showMessageDialog(null, "You have not taken any tests", "alert", JOptionPane.ERROR_MESSAGE);
 
-
-
     }
 
 

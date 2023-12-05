@@ -80,15 +80,23 @@ public class PortalUI {
     }
 
     
-
-    public void showInsuranceList(ArrayList<ArrayList<String>> insurances) {
+    public void showInsuranceList(Boolean exist, ArrayList<ArrayList<String>> tests) {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
 
+        if(exist == true){
         InsuranceUI insuranceUI = InsuranceUI.createUI();
-        insuranceUI.tableHandler(insurances);
+        insuranceUI.tableHandler(tests);
         insuranceUI.show();
+        }
+        else{
+            InsuranceUI insuranceUI = InsuranceUI.createUI();
+            home.show();
+            insuranceUI.showFailureMessage();
+        }
     }
+    
+
 
     public void requestRegister(String name, String email, String phone, String password) {
         portalAgentInstance.registerRequest(name, email, phone, password);

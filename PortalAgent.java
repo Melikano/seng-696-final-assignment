@@ -173,18 +173,27 @@ public class PortalAgent extends Agent {
                             System.out.println("PORTAL: Received insurances list");
                             System.out.println(payloadLst.length);
 
-                            ArrayList<ArrayList<String>> insuraceList = new ArrayList<>();
-                            for (int i = 0; i <= payloadLst.length; i++) {
-                                if (i % 2 == 0 && i != 0) {
-                                    ArrayList<String> insuraceInfo = new ArrayList<>();
-                                    insuraceInfo.add(payloadLst[i - 2]);
-                                    insuraceInfo.add(payloadLst[i - 1]);
-                                    insuraceList.add(insuraceInfo);
-                                }
+                            if(payloadLst.length == 1){
+                                System.out.println("PORTAL: HHHHHHH tests list");
+                                ArrayList<ArrayList<String>> insuraceList = new ArrayList<>();
+
+                                PortalUIInstance.showInsuranceList(false, insuraceList);
                             }
+                            else{
+                                ArrayList<ArrayList<String>> insuraceList = new ArrayList<>();
+                                for (int i = 0; i <= payloadLst.length; i++) {
+                                    if (i % 2 == 0 && i != 0) {
+                                        ArrayList<String> insuraceInfo = new ArrayList<>();
+                                        insuraceInfo.add(payloadLst[i - 2]);
+                                        insuraceInfo.add(payloadLst[i - 1]);
+                                        insuraceList.add(insuraceInfo);
+                                    }
+                                }
+                            
                             System.out.println("PORTAL: Received insurances list");
 
-                            PortalUIInstance.showInsuranceList(insuraceList);
+                            PortalUIInstance.showInsuranceList(true,insuraceList);
+                            }
                             break;
 
                     }
