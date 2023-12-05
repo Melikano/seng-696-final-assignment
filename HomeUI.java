@@ -28,8 +28,6 @@ public class HomeUI extends UserInterface implements ActionListener {
         pharmacyButton.addActionListener(this);
         laboratoryButton.addActionListener(this);
         insuraceButton.addActionListener(this);
-        appointmentButton.addActionListener(this);
-        medicationButton.addActionListener(this);
         signoutButton.addActionListener(this);
 
 
@@ -100,13 +98,13 @@ public class HomeUI extends UserInterface implements ActionListener {
             portal.requestInsuranceList();
         }
         
-        if (e.getSource() == appointmentButton) {
+        if (e.getSource() == appointmentsButton) {
             this.disposeFrame();
             PortalUI portal = PortalUI.returnSingleton();
             // portal.requestAppointmentsList();
         }
         
-        if (e.getSource() == medicationButton) {
+        if (e.getSource() == medicationsButton) {
             this.disposeFrame();
             PortalUI portal = PortalUI.returnSingleton();
             // portal.requestMedicationList();
