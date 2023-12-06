@@ -6,6 +6,7 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 
+//searching for an agent
 public class ServiceSearch {
     public static AID searchForService(Agent myAgent, String serviceName) {
         AID targetService = new AID();

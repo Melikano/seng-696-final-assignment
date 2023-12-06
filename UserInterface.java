@@ -2,6 +2,9 @@
 import javax.swing.*;
 import java.awt.*;
 
+
+//user interface that all the interfaces will inherit
+//this is the frame for the UI
 public abstract class UserInterface{
     JFrame frame;
     UserInterface(String frameTitle)

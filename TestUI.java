@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+//show all the laboratory tests
 public class TestUI extends UserInterface implements ActionListener {
     JLabel descriptionTextField = new JLabel("List of all tests:");
     JPanel panel = new JPanel();
@@ -29,7 +30,7 @@ public class TestUI extends UserInterface implements ActionListener {
     }
 
 
-
+//showing the table that contains information of the tests
     public void tableHandler(ArrayList<ArrayList<String>> tests) {
         this.tests = tests;
         // parse input to an array list of strings and show it in chooseMedUI

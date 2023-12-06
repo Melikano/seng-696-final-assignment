@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 
-
+//hard coded tests that exist in the laboratory
 public class TestUtils {
 
     public static Hashtable<LabTest, String> generateTests() {
