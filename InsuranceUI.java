@@ -29,12 +29,13 @@ public class InsuranceUI extends UserInterface implements ActionListener {
     }
 
 
-
+//showing the table of insurances that cover a person
     public void tableHandler(ArrayList<ArrayList<String>> insurance) {
         this.insurance = insurance;
         // parse input to an array list of strings and show it in chooseMedUI
         String[][] insuraceList = new String[insurance.size()][2];
         int insuranceCounter = 0;
+        //iterate over the list received
         for (int i = 0; i < insurance.size(); i++) {
             String[] tempArray = new String[3];
             String name = insurance.get(i).get(0);

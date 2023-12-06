@@ -29,11 +29,13 @@ public class MedicationsListUI extends UserInterface implements ActionListener {
         frame.add(panel);
     }
 
+    //show the table of the medications
     public void tableHandler(ArrayList<ArrayList<String>> medications) {
         this.medications = medications;
 
         String[][] medicationsList = new String[medications.size()][2];
         int testCounter = 0;
+        //iterate over the list received to get relevant data
         for (int i = 0; i < medications.size(); i++) {
             String[] tempArray = new String[2];
             String name = medications.get(i).get(0);

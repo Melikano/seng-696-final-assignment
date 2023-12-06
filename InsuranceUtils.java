@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 
-
+//hardcoded insurance data
 public class InsuranceUtils {
 
     public static Hashtable<Insurance, String> generateInsurances() {

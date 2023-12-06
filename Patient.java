@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class Patient extends Person {
 
+    //each patient is a person with password and medications
     private String password;
     private ArrayList<Medication> medications;
 

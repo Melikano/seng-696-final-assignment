@@ -21,6 +21,7 @@ public class HomeUI extends UserInterface implements ActionListener {
 
     private HomeUI(String frameTitle) {
         super(frameTitle);
+        //different buttons for different options that the logined user has
         panel.setPreferredSize(new Dimension(250, 250));
         doctorsButton.addActionListener(this);
         appointmentsButton.addActionListener(this);
@@ -97,17 +98,6 @@ public class HomeUI extends UserInterface implements ActionListener {
             portal.requestInsuranceList();
         }
         
-        if (e.getSource() == appointmentsButton) {
-            this.disposeFrame();
-            PortalUI portal = PortalUI.returnSingleton();
-            // portal.requestAppointmentsList();
-        }
-        
-        if (e.getSource() == medicationsButton) {
-            this.disposeFrame();
-            PortalUI portal = PortalUI.returnSingleton();
-            // portal.requestMedicationList();
-        }
     }
 
     public void setName(String name) {

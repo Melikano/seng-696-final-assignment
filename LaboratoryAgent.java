@@ -44,10 +44,10 @@ public class LaboratoryAgent extends Agent {
 
     public ArrayList getUserTests(String userEmail) {
         ArrayList<LabTest> foundtests = new ArrayList<LabTest>();
-      
+      //to get the tests of the logined user
         for(Map.Entry entry: tests.entrySet()){
             if(userEmail.equals(entry.getValue())){
-                foundtests.add((LabTest) entry.getKey()); //no break, looping entire hashtable
+                foundtests.add((LabTest) entry.getKey()); 
             }
         }
         System.out.println("keys : " );
@@ -69,15 +69,16 @@ public class LaboratoryAgent extends Agent {
                     String content = "";
 
                     System.out.println("LABORATORY AGENT: tests list request received");
-                    //geting a message from portal and iterate over the doctors to get the three fields
                     ACLMessage replyTestList = msg.createReply();
                     replyTestList.setPerformative(Messages.TEST_LIST_RESPONSE);
 
                     ArrayList<LabTest> foundtests = new ArrayList<LabTest>();
                     System.out.println("INFOOOOO" + newInfo[0]);
+                    //find the tests of the logined user
                     foundtests = getUserTests(newInfo[0]);
                     
                     System.out.println(foundtests);
+                    //send the data of those tests
                     for (LabTest key : foundtests)
                     {
                         content = content.concat(key.gettestId().toString());

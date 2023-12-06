@@ -1,3 +1,4 @@
+//assign a number to each message
 public class Messages {
 
     public final static int FAILURE = 0;

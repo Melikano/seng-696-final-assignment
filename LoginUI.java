@@ -53,6 +53,7 @@ public class LoginUI extends UserInterface implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //to go back to the patient UI
         if (e.getSource() == this.goBackHome) {
             this.disposeFrame();
             emailTextField.setText("Email");
@@ -76,11 +77,13 @@ public class LoginUI extends UserInterface implements ActionListener {
             {
                 this.showFailureEmail();
             }
+            //check if the password is valid
             if (password.length() < 3 || password.length() > 10)
             {
                 this.showFailurePassword();
             }
             String encryptedPassword = Cryptography.encrypt(password);
+            //call requestLogin
             PortalUI.returnSingleton().requestLoginUser(email, encryptedPassword);
         }
 

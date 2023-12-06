@@ -44,10 +44,10 @@ public class InsuranceAgent extends Agent {
 
     public ArrayList getUserInsurances(String userEmail) {
         ArrayList<Insurance> foundinsurances = new ArrayList<Insurance>();
-      
+      //get the insurance of the logined user
         for(Map.Entry entry: insurances.entrySet()){
             if(userEmail.equals(entry.getValue())){
-                foundinsurances.add((Insurance) entry.getKey()); //no break, looping entire hashtable
+                foundinsurances.add((Insurance) entry.getKey()); 
             }
         }
         System.out.println("keys : " );
@@ -69,14 +69,15 @@ public class InsuranceAgent extends Agent {
                     String content = "";
 
                     System.out.println("INSURANCE AGENT: tests list request received");
-                    //geting a message from portal and iterate over the doctors to get the three fields
                     ACLMessage replyTestList = msg.createReply();
                     replyTestList.setPerformative(Messages.INSURANCE_LIST_RESPONSE);
 
                     ArrayList<Insurance> foundinsurances = new ArrayList<Insurance>();
                     System.out.println("INFOOOOO" + newInfo[0]);
+                    //get the insurance of the logined user
                     foundinsurances = getUserInsurances(newInfo[0]);
                     
+                    //iterate over insurances to send their data so that it will be shown
                     System.out.println(foundinsurances);
                     for (Insurance key : foundinsurances)
                     {
