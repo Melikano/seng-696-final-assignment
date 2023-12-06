@@ -37,18 +37,19 @@ public class HealthCareProviderAgent extends Agent {
             public void action() {
 
                 ACLMessage msg;
+                //receive a message and case over its Performative
                 msg = myAgent.receive();
                 if (msg != null) {
                     String content = "";
                     switch (msg.getPerformative()) {
                         case Messages.DOCTORS_LISTS_REQUEST:
                             System.out.println("HEALTHCARE_PROVIDER: doctors' list request received");
-                            // geting a message from portal and iterate over the doctors to get the three
-                            // fields
+
                             ACLMessage replyDoctorsList = msg.createReply();
                             replyDoctorsList.setPerformative(Messages.DOCTORS_LISTS_RESPONSE);
                             System.out.println(doctors);
                             Set<String> setOfKeys = doctors.keySet();
+                            //add doctors info to the content to send to portal
                             System.out.println(setOfKeys);
                             for (String key : setOfKeys) {
                                 content = content.concat(doctors.get(key).getName());
@@ -65,14 +66,15 @@ public class HealthCareProviderAgent extends Agent {
                             break;
                         case Messages.AVAILABILITY_REQUEST:
                             System.out.println("HEALTHCARE_PROVIDER: chosen doctor's availability request received");
-                            // get a message from the portal and parse the message and iterate over their
-                            // times
                             String[] payloadLst = msg.getContent().split(Messages.DELIMITER);
+
+                            //receive doctor email
                             String selectedDoctorEmail = payloadLst[0];
                             Doctor selectedDoctor = doctors.get(selectedDoctorEmail);
 
                             ACLMessage replyAvailability = msg.createReply();
                             replyAvailability.setPerformative(Messages.AVAILABILITY_RESPONSE);
+                            //send available times info
                             if (selectedDoctor != null) {
                                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                                 for (int i = 0; i < selectedDoctor.getAvailability().size(); i++) {
@@ -95,7 +97,7 @@ public class HealthCareProviderAgent extends Agent {
 
                         case Messages.CONFIRM_APPOINTMENT_REQUEST:
                             System.out.println("HEALTHCARE_PROVIDER: confirm appointment request received");
-
+                            //get the received data
                             String[] contentLst = msg.getContent().split(Messages.DELIMITER);
                             String dateTimeStr = contentLst[0];
                             String doctorEmail = contentLst[1];
@@ -110,7 +112,7 @@ public class HealthCareProviderAgent extends Agent {
                             for (Calendar c : selectedDoctorr.getAvailability()) {
 
                                 if (c.getStartingDateTime().compareTo(dateTime) == 0) {
-                                    System.out.println("here");
+                                    //set the reserved of that time to true
                                     Calendar newCal = new Calendar(c.getStartingDateTime(), c.getDuration(),
                                             true);
 

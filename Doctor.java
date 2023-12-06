@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 
+//doctor is a oerson but has availability times and speciality
 public class Doctor extends Person {
 
     private String speciality;

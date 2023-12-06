@@ -4,6 +4,8 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+
+//hardcoded data for doctors
 public class DoctorsUtils {
         public final static Integer HOURLY_WAGE = 60; // In CAD for example
 
