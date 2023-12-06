@@ -47,6 +47,7 @@ public class PortalUI {
 
     }
 
+    //call doctorUI to show doctors list and passing doctors
     public void showDoctorList(ArrayList<ArrayList<String>> doctors) {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
@@ -55,6 +56,7 @@ public class PortalUI {
         doctorUI.show();
     }
 
+    //call medicationUI to show medication list and passing medication that user can order
     public void showMedicationList(ArrayList<ArrayList<String>> medications) {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
@@ -63,6 +65,7 @@ public class PortalUI {
         medicationUI.show();
     }
 
+    //call medicationUI to show medication list and passing medication that user has ordered
     public void showPastMedicationList(ArrayList<ArrayList<String>> medications) {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
@@ -71,7 +74,7 @@ public class PortalUI {
         medicationUI.show();
     }
 
-
+    //call appointmentUI to show appointment list and passing appointments that user has created
     public void showAppointmentsList(ArrayList<ArrayList<String>> appointments) {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
@@ -80,6 +83,8 @@ public class PortalUI {
         appointmentsListUI.show();
     }
 
+    //show the list of test that user has taken
+    //exist indicate if he has taken any tests or not
     public void showTestList(Boolean exist, ArrayList<ArrayList<String>> tests) {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
@@ -97,6 +102,7 @@ public class PortalUI {
     }
 
     
+    //show the list and amount of money each insurance covers the user
     public void showInsuranceList(Boolean exist, ArrayList<ArrayList<String>> tests) {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
@@ -124,6 +130,7 @@ public class PortalUI {
         portalAgentInstance.loginRequest(email, password);
     }
 
+    //if login is confirmed it will show success otherwise failure
     public void loginConfirm(boolean loginConfirm, String name) {
         this.patientName = name;
         if (loginConfirm) {
@@ -137,6 +144,7 @@ public class PortalUI {
         }
     }
 
+    //if register is confirmed it will show success otherwise failure
     public void registerConfirm(boolean confirm) {
         if (confirm) {
             RegisterUI registerUIInstance = RegisterUI.createUI();
@@ -172,10 +180,12 @@ public class PortalUI {
         portalAgentInstance.pastMedicationsRequest();
     }
 
+    //passing email to find the tests related to that patient
     public void requestTestsList(){
         portalAgentInstance.testsListRequest(this.patientEmail);
     }
 
+    //passing email to find the insurance related to that patient
     public void requestInsuranceList(){
         portalAgentInstance.insuranceListRequest(this.patientEmail);
     }
@@ -188,6 +198,7 @@ public class PortalUI {
         portalAgentInstance.addMedicationRequest(medication);
     }
 
+    //availability of the specific doctor that is passed
     public void requestAvailability(String doctorEmail) {
         this.doctorEmail = doctorEmail;
         portalAgentInstance.availabilityRequest(doctorEmail);
@@ -202,6 +213,7 @@ public class PortalUI {
         appUI.show();
     }
 
+    //appID is the appointment Id and amount is the price of appointment
     public void appointmentConfirm(boolean appConfirm, Integer appID, float amount) {
         this.appID = appID;
         if (appConfirm) {

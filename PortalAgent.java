@@ -50,6 +50,7 @@ public class PortalAgent extends Agent {
             public void action() {
 
                 ACLMessage msg;
+                //receive a message and then case over it to handle it relatively
                 msg = myAgent.receive();
 
                 if (msg != null) {
@@ -58,6 +59,7 @@ public class PortalAgent extends Agent {
                         case Messages.REGISTER_RESPONSE:
                             System.out.println("PORTAL: Received register confirmation");
                             boolean registered = false;
+                            //if register was successful
                             if (payloadLst[0].equals(Messages.MESSAGE_SUCCESS)) {
                                 registered = true;
                             } else if (payloadLst[0].equals(Messages.MESSAGE_FAILURE)) {
@@ -72,6 +74,7 @@ public class PortalAgent extends Agent {
                             String confirmation = payloadLst[0];
                             boolean isAuthenticated = false;
                             String name = "";
+                            //if login was successful
                             if (confirmation.equals(Messages.MESSAGE_SUCCESS)) {
                                 isAuthenticated = true;
                                 name = payloadLst[1];
@@ -84,6 +87,7 @@ public class PortalAgent extends Agent {
                             PortalUIInstance.loginConfirm(isAuthenticated, name);
                             break;
 
+                        //received doctors info  as a response it will show them 
                         case Messages.DOCTORS_LISTS_RESPONSE:
                             System.out.println("PORTAL: Received doctors list");
                             System.out.println(payloadLst.length);
@@ -92,16 +96,18 @@ public class PortalAgent extends Agent {
                             for (int i = 0; i <= payloadLst.length; i++) {
                                 if (i % 3 == 0 && i != 0) {
                                     ArrayList<String> doctorInfo = new ArrayList<>();
+                                    //adding the info of each doctor
                                     doctorInfo.add(payloadLst[i - 3]);
                                     doctorInfo.add(payloadLst[i - 2]);
                                     doctorInfo.add(payloadLst[i - 1]);
                                     doctorsLists.add(doctorInfo);
                                 }
                             }
-
+                            
                             PortalUIInstance.showDoctorList(doctorsLists);
                             break;
-
+                        
+                        //received availabilities as a response it will show them 
                         case Messages.AVAILABILITY_RESPONSE:
                             System.out.println("PORTAL: Received doctor's availability");
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -120,6 +126,7 @@ public class PortalAgent extends Agent {
                             boolean appointmentCreated = false;
                             int appointmentID = -1;
                             float amount = -1;
+                            //check if it is successful
                             if (payloadLst[0].equals(Messages.MESSAGE_SUCCESS)) {
                                 appointmentCreated = true;
                                 appointmentID = Integer.parseInt(payloadLst[1]);
@@ -127,13 +134,15 @@ public class PortalAgent extends Agent {
                             }
                             PortalUIInstance.appointmentConfirm(appointmentCreated, appointmentID, amount);
                             break;
-
+                        
+                        //list of past appointments has been received by portal
                         case Messages.APPOINTMENTS_LIST_RESPONSE:
                             System.out.println("PORTAL: Received appointments list");
                             System.out.println(payloadLst.length);
                             ArrayList<ArrayList<String>> appointmenList = new ArrayList<>();
                             for (int i = 0; i <= payloadLst.length; i++) {
                                 if (i % 3 == 0 && i != 0) {
+                                    //adding the info of each appointment
                                     ArrayList<String> appointmentInfo = new ArrayList<>();
                                     appointmentInfo.add(payloadLst[i - 3]);
                                     appointmentInfo.add(payloadLst[i - 2]);
@@ -145,7 +154,8 @@ public class PortalAgent extends Agent {
                             PortalUIInstance.showAppointmentsList(appointmenList);
 
                             break;
-
+                         
+                        //list of medications has been received by portal
                         case Messages.MEDICATION_LIST_RESPONSE:
                             System.out.println("PORTAL: Received medications list");
                             System.out.println(payloadLst.length);
@@ -178,6 +188,8 @@ public class PortalAgent extends Agent {
                             }
                             PortalUIInstance.showPastMedicationList(pasMedList);
                             break;
+
+                        //list of tests that user have taken   
                         case Messages.TEST_LIST_RESPONSE:
                             System.out.println("PORTAL: Received tests list");
                             System.out.println(payloadLst.length);
@@ -205,9 +217,8 @@ public class PortalAgent extends Agent {
                         case Messages.INSURANCE_LIST_RESPONSE:
                             System.out.println("PORTAL: Received insurances list");
                             System.out.println(payloadLst.length);
-
+                            //if the user is not covered by any insurance
                             if (payloadLst.length == 1) {
-                                System.out.println("PORTAL: HHHHHHH tests list");
                                 ArrayList<ArrayList<String>> insuraceList = new ArrayList<>();
 
                                 PortalUIInstance.showInsuranceList(false, insuraceList);
@@ -235,6 +246,10 @@ public class PortalAgent extends Agent {
 
     }
 
+
+    ///the requests that portal will send to other agents
+    //the message and the receiver is specified in each function
+
     public void availabilityRequest(String doctorEmail) {
         addBehaviour(new OneShotBehaviour() {
             @Override
@@ -256,6 +271,7 @@ public class PortalAgent extends Agent {
             @Override
             public void action() {
                 ACLMessage message = new ACLMessage(Messages.REGISTER_REQUEST);
+                //send the info user has provided to the patientAgent
                 List<String> payloadLst = Arrays.asList(name, password, email, phoneNumber);
 
                 String payload = String.join(Messages.DELIMITER, payloadLst);
@@ -274,6 +290,8 @@ public class PortalAgent extends Agent {
             @Override
             public void action() {
                 ACLMessage message = new ACLMessage(Messages.LOGIN_REQUEST);
+                //send the info user has provided to the patientAgent
+
                 List<String> payloadLst = Arrays.asList(email, passwordHash);
 
                 String payload = String.join(Messages.DELIMITER, payloadLst);
@@ -309,6 +327,7 @@ public class PortalAgent extends Agent {
                 ACLMessage message = new ACLMessage(Messages.CREATE_APPOINTMENT_REQUEST);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 String dateTimeStr = appDateTime.format(formatter);
+                //send the date and doctor and patient
                 List<String> payloadLst = Arrays.asList(
                         dateTimeStr,
                         patientEmail,
@@ -386,7 +405,7 @@ public class PortalAgent extends Agent {
                 ACLMessage message = new ACLMessage(Messages.ADD_MEDICATION_REQUEST);
                 List<String> payloadLst = Arrays.asList(
                         medication.getName(), medication.getDescription());
-
+                //send the name and description 
                 String payload = String.join(Messages.DELIMITER, payloadLst);
 
                 System.out.println("PORTAL: Requesting to add a medication to " + patientAgent.getLocalName());
@@ -418,6 +437,7 @@ public class PortalAgent extends Agent {
             @Override
             public void action() {
                 ACLMessage message = new ACLMessage(Messages.TEST_LIST_REQUEST);
+                //send the email of the patient
                 String payload = String.join(Messages.DELIMITER, patientEmail);
 
                 System.out.println(
