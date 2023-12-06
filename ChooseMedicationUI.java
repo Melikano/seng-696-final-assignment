@@ -32,7 +32,7 @@ public class ChooseMedicationUI extends UserInterface implements ActionListener 
 
     public static ChooseMedicationUI createUI() {
         if (singleton == null) {
-            singleton = new ChooseMedicationUI("Doctor");
+            singleton = new ChooseMedicationUI("Pharmacy");
 
         }
         return singleton;
@@ -83,7 +83,7 @@ public class ChooseMedicationUI extends UserInterface implements ActionListener 
             Medication newMed = new Medication(medications.get(number).get(0), medications.get(number).get(1), null, null);
             System.out.println("selected: " + number);
             PortalUI.returnSingleton().requestAddMedication(newMed);
-            JOptionPane.showMessageDialog(null, "Medication was successfully added to your cart!", "alert", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Order for the selected medication was confirmed by the pharmacy!", "alert", JOptionPane.INFORMATION_MESSAGE);
         }
         if (e.getSource() == this.goBackHome) {
             this.disposeFrame();
