@@ -4,10 +4,8 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-
 public class DoctorsUtils {
         public final static Integer HOURLY_WAGE = 60; // In CAD for example
-
 
         public static Hashtable<String, Doctor> generateDoctors() {
                 // a sample doctor list is hard coded and returned in this func
@@ -60,13 +58,10 @@ public class DoctorsUtils {
                 Doctor doctor4 = new Doctor("Mostafa ahmadi", "mostafa.ahmadi@gmail.com", "2223333", "Family Physician", timing4);
 
 
-
-
                 doctors.put(doctor1.getEmail(), doctor1);
                 doctors.put(doctor2.getEmail(), doctor2);
                 doctors.put(doctor3.getEmail(), doctor3);
                 doctors.put(doctor4.getEmail(), doctor4);
-
 
                 return doctors;
         }

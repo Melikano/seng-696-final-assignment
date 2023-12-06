@@ -205,12 +205,13 @@ public class PatientAgent extends Agent {
                 replyAppointmentsList.setPerformative(Messages.APPOINTMENTS_LIST_RESPONSE);
                 System.out.println(appointments);
 
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 for (Appointment appointment : appointments) {
                     content = content.concat(String.valueOf(appointment.getAppointmentID()));
                     content = content.concat(Messages.DELIMITER);
                     content = content.concat(appointment.getDoctorEmail());
                     content = content.concat(Messages.DELIMITER);
-                    content = content.concat(String.valueOf(appointment.getDateTime()));
+                    content = content.concat(appointment.getDateTime().format(formatter));
                     content = content.concat(Messages.DELIMITER);
                 }
                 System.out.println("PATIENT: Sending appointments' list back to portal");

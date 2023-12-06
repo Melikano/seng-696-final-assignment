@@ -55,7 +55,8 @@ public class LoginUI extends UserInterface implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.goBackHome) {
             this.disposeFrame();
-            this.panel.removeAll();
+            emailTextField.setText("Email");
+            passwordTextField.setText("Password");
             PatientUI patientUIInstance = PatientUI.createUI();
             patientUIInstance.show();
 
