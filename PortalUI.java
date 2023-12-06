@@ -228,6 +228,7 @@ public class PortalUI {
     public void orderMedicationConfirm(boolean confirmed, Medication newMed) {
         System.out.println(confirmed);
         if (confirmed) {
+            // add this med to user's medications
             PortalUI.returnSingleton().requestAddMedication(newMed);
             ChooseMedicationUI medUI = ChooseMedicationUI.createUI();
             medUI.showSuccess();

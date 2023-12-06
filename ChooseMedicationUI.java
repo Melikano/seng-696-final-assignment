@@ -89,8 +89,7 @@ public class ChooseMedicationUI extends UserInterface implements ActionListener 
             Medication newMed = new Medication(medications.get(number).get(0), medications.get(number).get(1), null,
                     null);
             System.out.println("selected: " + number);
-            //add this to the users medication
-            PortalUI.returnSingleton().requestAddMedication(newMed);
+            // request for ordering the medication to the pharmacy
             PortalUI.returnSingleton().requestOrderMedication(newMed);
         }
         if (e.getSource() == this.goBackHome) {
