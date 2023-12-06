@@ -54,7 +54,10 @@ public class RegisterUI extends UserInterface implements ActionListener {
         if (e.getSource() == this.goBackPortal) {
             
             this.disposeFrame();
-            this.panel.removeAll();
+            emailTextField.setText("Email");
+            passwordTextField.setText("Password");
+            nameTextField.setText("Name");
+            phoneTextField.setText("phone");
             PatientUI patientUIInstance = PatientUI.createUI();
             patientUIInstance.show();
 
