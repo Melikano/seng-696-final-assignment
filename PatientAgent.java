@@ -275,6 +275,7 @@ public class PatientAgent extends Agent {
                 replyMedicationsList.setPerformative(Messages.PAST_MEDICATIONS_LIST_RESPONSE);
                 System.out.println(medications);
 
+                //send data of the medications
                 for (Medication medication : medications) {
                     content = content.concat(medication.getName());
                     content = content.concat(Messages.DELIMITER);
