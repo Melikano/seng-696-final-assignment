@@ -74,10 +74,7 @@ public class PortalUI {
         medicationUI.show();
     }
 
-<<<<<<< HEAD
     //call appointmentUI to show appointment list and passing appointments that user has created
-=======
->>>>>>> 74ae649 (fix request and response for ordering medication)
     public void showAppointmentsList(ArrayList<ArrayList<String>> appointments) {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
@@ -103,11 +100,8 @@ public class PortalUI {
         }
     }
 
-<<<<<<< HEAD
     
     //show the list and amount of money each insurance covers the user
-=======
->>>>>>> 74ae649 (fix request and response for ordering medication)
     public void showInsuranceList(Boolean exist, ArrayList<ArrayList<String>> tests) {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
@@ -181,7 +175,6 @@ public class PortalUI {
         portalAgentInstance.pastMedicationsRequest();
     }
 
-<<<<<<< HEAD
     //passing email to find the tests related to that patient
     public void requestTestsList(){
         portalAgentInstance.testsListRequest(this.patientEmail);
@@ -189,13 +182,6 @@ public class PortalUI {
 
     //passing email to find the insurance related to that patient
     public void requestInsuranceList(){
-=======
-    public void requestTestsList() {
-        portalAgentInstance.testsListRequest(this.patientEmail);
-    }
-
-    public void requestInsuranceList() {
->>>>>>> 74ae649 (fix request and response for ordering medication)
         portalAgentInstance.insuranceListRequest(this.patientEmail);
     }
 
