@@ -39,6 +39,7 @@ public class ChooseMedicationUI extends UserInterface implements ActionListener 
 
     }
 
+    //show the medication received in a table
     public void tableHandler(ArrayList<ArrayList<String>> medications) {
         this.medications = medications;
         // parse input to an array list of strings and show it in chooseMedUI
@@ -76,12 +77,14 @@ public class ChooseMedicationUI extends UserInterface implements ActionListener 
             String numberString = medicationtNumTextField.getText();
             numberString = numberString.replaceAll("\\s+", "");
             int number = Integer.parseInt(numberString);
+            //check the number that user has entered
             if (number < 0 || number >= medications.size()) {
                 showFailureNoOptions();
                 return;
             }
             Medication newMed = new Medication(medications.get(number).get(0), medications.get(number).get(1), null, null);
             System.out.println("selected: " + number);
+            //add this to the users medication
             PortalUI.returnSingleton().requestAddMedication(newMed);
             JOptionPane.showMessageDialog(null, "Order for the selected medication was confirmed by the pharmacy!", "alert", JOptionPane.INFORMATION_MESSAGE);
         }

@@ -40,6 +40,7 @@ public class ChooseDoctorUI extends UserInterface implements ActionListener {
 
     }
 
+    //show the table for doctors information
     public void tableHandler(ArrayList<ArrayList<String>> doctors) {
         this.doctors = doctors;
         // parse input to an array list of strings and show it in chooseDoctorUI
@@ -75,12 +76,14 @@ public class ChooseDoctorUI extends UserInterface implements ActionListener {
             String numberString = doctortNumTextField.getText();
             numberString = numberString.replaceAll("\\s+", "");
             int number = Integer.parseInt(numberString);
+            //check the number user has entered
             if (number < 0 || number >= doctors.size()) {
                 showFailureNoOptions();
                 return;
             }
             System.out.println("selected: " + number);
             this.panel.removeAll();
+            //get the availability times of the selected doctor
             PortalUI.returnSingleton().requestAvailability(doctors.get(number).get(2));
 
         }

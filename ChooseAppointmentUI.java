@@ -52,7 +52,7 @@ public class ChooseAppointmentUI extends UserInterface implements ActionListener
     public void tableHandler(ArrayList<LocalDateTime> availabilities) {
 
         this.availabilities = availabilities;
-        // parse input to an array list of strings and show it in chooseDoctorUI
+        // parse input to an array list of strings and show it in chooseAppUI
         String[][] avalabilityList = new String[availabilities.size()][2];
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         int avalabilityCounter = 0;
@@ -81,6 +81,7 @@ public class ChooseAppointmentUI extends UserInterface implements ActionListener
             String numberString = avalNumTextField.getText();
             numberString = numberString.replaceAll("\\s+", "");
             int number = Integer.parseInt(numberString);
+            //check the number user has entered
             if (number < 0 || number >= availabilities.size()) {
                 showFailureNoOptions();
                 return;
@@ -99,6 +100,7 @@ public class ChooseAppointmentUI extends UserInterface implements ActionListener
 
     }
 
+    //handling appointment failure
     public void showFailureNoOptions() {
         JOptionPane.showMessageDialog(null, "No options selected", "alert", JOptionPane.ERROR_MESSAGE);
 
