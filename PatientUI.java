@@ -48,14 +48,23 @@ public class PatientUI extends UserInterface implements ActionListener {
         {
             //open window for login!
             this.disposeFrame();
+            
             LoginUI myLoginWindow = LoginUI.createUI();
+            myLoginWindow.emailTextField.setText("Email");
+            myLoginWindow.passwordTextField.setText("Password");
             myLoginWindow.show();
         }
         else if(e.getSource() == this.button2)
         {
             //open window for register!
             this.disposeFrame();
+            
             RegisterUI myLoginWindow = RegisterUI.createUI();
+            
+            myLoginWindow.emailTextField.setText("Email");
+            myLoginWindow.passwordTextField.setText("Password");
+            myLoginWindow.nameTextField.setText("Name");
+            myLoginWindow.phoneTextField.setText("phone");
             myLoginWindow.show();
         }
 

@@ -80,8 +80,6 @@ public class HealthCareProviderAgent extends Agent {
                                         content = content.concat(Messages.DELIMITER);
                                     }
                                 }
-                                System.out.println(selectedDoctorEmail);
-                            
                             }
                             else {
                                 content = Messages.MESSAGE_FAILURE;

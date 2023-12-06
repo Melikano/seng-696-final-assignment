@@ -67,7 +67,6 @@ public class HomeUI extends UserInterface implements ActionListener {
         }
         if (e.getSource() == signoutButton) {
             this.disposeFrame();
-            this.panel.removeAll();
             PatientUI patientUIInstance = PatientUI.createUI();
             patientUIInstance.show();
 

@@ -64,7 +64,7 @@ public class ChooseAppointmentUI extends UserInterface implements ActionListener
             avalabilityList[avalabilityCounter] = tempArray;
             avalabilityCounter += 1;
         }
-        String[] columnNames = { "Number", "Date/Time", };
+        String[] columnNames = { "Number", "Date/Time" };
         DefaultTableModel model = new DefaultTableModel(avalabilityList, columnNames);
         this.appointmentsTable = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(appointmentsTable);
