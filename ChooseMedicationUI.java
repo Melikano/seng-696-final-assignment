@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+// UI for rendering all medications available in the Pharmacy
+// The user can choose a medication through this UI
 public class ChooseMedicationUI extends UserInterface implements ActionListener {
     JLabel descriptionTextField = new JLabel("List of all medications:");
     JTextField medicationtNumTextField = new JTextField("         ");
@@ -42,9 +44,10 @@ public class ChooseMedicationUI extends UserInterface implements ActionListener 
     //show the medication received in a table
     public void tableHandler(ArrayList<ArrayList<String>> medications) {
         this.medications = medications;
-        // parse input to an array list of strings and show it in chooseMedUI
+        // parse input to an array list of strings and show it in chooseMedicationUI
         String[][] medicationList = new String[medications.size()][4];
         int medicationtCounter = 0;
+        // prepare 2d array data for the rendering the table
         for (int i = 0; i < medications.size(); i++) {
             String[] tempArray = new String[4];
             tempArray[0] = Integer.toString(i);
@@ -73,6 +76,7 @@ public class ChooseMedicationUI extends UserInterface implements ActionListener 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        // if submit button was pressed, then the 
         if (e.getSource() == this.submitButton) {
             String numberString = medicationtNumTextField.getText();
             numberString = numberString.replaceAll("\\s+", "");

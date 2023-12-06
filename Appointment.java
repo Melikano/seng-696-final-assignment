@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
 
+// Appointment Class, represents the appointment entity
 public class Appointment {
     private Integer appointmentID;
     private String patientEmail;
@@ -8,7 +9,7 @@ public class Appointment {
     private Integer amount; // price
 
     public Appointment(Integer appointmentID, String patientEmail, String doctorEmail, LocalDateTime dateTime,
-                       Integer amount, Boolean paid) {
+            Integer amount, Boolean paid) {
         this.appointmentID = appointmentID;
         this.patientEmail = patientEmail;
         this.doctorEmail = doctorEmail;

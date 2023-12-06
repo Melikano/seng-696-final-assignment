@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+// UI for choosing a date and time of the chosen doctor's availability to book an appointment
 public class ChooseAppointmentUI extends UserInterface implements ActionListener {
     JLabel descriptionTextField = new JLabel("");
     JTextField avalNumTextField = new JTextField("          ");
@@ -56,6 +57,7 @@ public class ChooseAppointmentUI extends UserInterface implements ActionListener
         String[][] avalabilityList = new String[availabilities.size()][2];
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         int avalabilityCounter = 0;
+        // preparing data for the table (2d array)
         for (int i = 0; i < availabilities.size(); i++) {
             String[] tempArray = new String[2];
             tempArray[0] = Integer.toString(i);
@@ -77,6 +79,7 @@ public class ChooseAppointmentUI extends UserInterface implements ActionListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // if submit button was pressed then request for creating an appointment
         if (e.getSource() == this.submitButton) {
             String numberString = avalNumTextField.getText();
             numberString = numberString.replaceAll("\\s+", "");
@@ -90,6 +93,7 @@ public class ChooseAppointmentUI extends UserInterface implements ActionListener
 
         }
 
+        // if back button was pressed then dispose and go back to Home UI
         if (e.getSource() == this.goBackHome) {
             this.disposeFrame();
             this.panel.removeAll();

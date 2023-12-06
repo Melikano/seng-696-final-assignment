@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+// UI for choosing a doctor among available doctors 
 public class ChooseDoctorUI extends UserInterface implements ActionListener {
     JLabel descriptionTextField = new JLabel("List of all doctors:");
     JTextField doctortNumTextField = new JTextField("         ");
@@ -46,6 +47,7 @@ public class ChooseDoctorUI extends UserInterface implements ActionListener {
         // parse input to an array list of strings and show it in chooseDoctorUI
         String[][] doctorsList = new String[doctors.size()][3];
         int doctortCounter = 0;
+        // preparing table data
         for (int i = 0; i < doctors.size(); i++) {
             String[] tempArray = new String[4];
             tempArray[0] = Integer.toString(i);
@@ -72,6 +74,7 @@ public class ChooseDoctorUI extends UserInterface implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        // if submit pressed then Portal should request for availablity of the selected doctor
         if (e.getSource() == this.submitButton) {
             String numberString = doctortNumTextField.getText();
             numberString = numberString.replaceAll("\\s+", "");
@@ -87,6 +90,8 @@ public class ChooseDoctorUI extends UserInterface implements ActionListener {
             PortalUI.returnSingleton().requestAvailability(doctors.get(number).get(2));
 
         }
+
+        // if back pressed go back to Home UI
         if (e.getSource() == this.goBackHome) {
             this.disposeFrame();
             this.panel.removeAll();

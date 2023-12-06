@@ -1,13 +1,12 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.JTextComponent;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+// UI for rendering the past appointments of the patient
 public class AppointmentsListUI extends UserInterface implements ActionListener {
     JLabel descriptionTextField = new JLabel("List of all appointments:");
     JPanel panel = new JPanel();
@@ -40,6 +39,8 @@ public class AppointmentsListUI extends UserInterface implements ActionListener 
 
     //get the appointment data and iterate over it
         int testCounter = 0;
+
+        // make data a 2d array so that it could be inserted to the table
         for (int i = 0; i < appointments.size(); i++) {
             String[] tempArray = new String[3];
             String id = appointments.get(i).get(0);
@@ -60,6 +61,7 @@ public class AppointmentsListUI extends UserInterface implements ActionListener 
         JScrollPane scrollPane = new JScrollPane(appointmentsTable);
 
         panel.add(scrollPane);
+        // if the patient doesn't have any appointments yet show this message
         if (appointments.size() == 0) {
             JLabel label = new JLabel("You don't have any appointments yet");
             panel.add(label);
@@ -71,7 +73,6 @@ public class AppointmentsListUI extends UserInterface implements ActionListener 
     public static AppointmentsListUI createUI() {
         if (singleton == null) {
             singleton = new AppointmentsListUI("Hello");
-
         }
         return singleton;
 
@@ -80,6 +81,7 @@ public class AppointmentsListUI extends UserInterface implements ActionListener 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        // if goBack was pressed then show the Home UI
         if (e.getSource() == this.goBackHome) {
             this.disposeFrame();
             this.panel.removeAll();

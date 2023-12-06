@@ -1,5 +1,6 @@
 import java.time.*;
-
+// Calendar entity
+// for representing time slots of doctor's availability
 public class Calendar {
 
     private LocalDateTime startingDateTime;
