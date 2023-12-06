@@ -133,14 +133,14 @@ public class PortalAgent extends Agent {
                             System.out.println(payloadLst.length);
                             ArrayList<ArrayList<String>> appointmenList = new ArrayList<>();
                             for (int i = 0; i <= payloadLst.length; i++) {
-                                if (i % 2 == 0 && i != 0) {
+                                if (i % 3 == 0 && i != 0) {
                                     ArrayList<String> appointmentInfo = new ArrayList<>();
+                                    appointmentInfo.add(payloadLst[i - 3]);
                                     appointmentInfo.add(payloadLst[i - 2]);
                                     appointmentInfo.add(payloadLst[i - 1]);
                                     appointmenList.add(appointmentInfo);
                                 }
                             }
-                            System.out.println("PORTAL: Received appointments list");
 
                             PortalUIInstance.showAppointmentsList(appointmenList);
 
