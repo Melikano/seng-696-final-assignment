@@ -5,6 +5,7 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class AppointmentsListUI extends UserInterface implements ActionListener {
@@ -33,27 +34,33 @@ public class AppointmentsListUI extends UserInterface implements ActionListener 
     public void tableHandler(ArrayList<ArrayList<String>> appointments) {
         this.appointments = appointments;
 
+        System.out.println(appointments);
+
         String[][] appointmentsList = new String[appointments.size()][2];
+
+
         int testCounter = 0;
         for (int i = 0; i < appointments.size(); i++) {
             String[] tempArray = new String[3];
-            String name = appointments.get(i).get(0);
-            tempArray[0] = name;
-            String description = appointments.get(i).get(1);
-            tempArray[1] = description;
+            String id = appointments.get(i).get(0);
+            tempArray[0] = id;
+            String doctorEmail = appointments.get(i).get(1);
+            tempArray[1] = doctorEmail;
+            String time = appointments.get(i).get(2);
+            tempArray[2] = time;
 
             appointmentsList[testCounter] = tempArray;
             testCounter += 1;
         }
 
-        String[] columnNames = { "ID", "Doctor", "Date and Time" };
+        String[] columnNames = { "ID", "Doctor", "Date/Time" };
         DefaultTableModel model = new DefaultTableModel(appointmentsList, columnNames);
 
         this.appointmentsTable = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(appointmentsTable);
 
         panel.add(scrollPane);
-        if(appointments.size() == 0){
+        if (appointments.size() == 0) {
             JLabel label = new JLabel("You don't have any appointments yet");
             panel.add(label);
         }
