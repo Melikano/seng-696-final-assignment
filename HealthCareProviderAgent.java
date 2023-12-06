@@ -13,7 +13,8 @@ import java.time.*;
 import java.util.*;
 
 public class HealthCareProviderAgent extends Agent {
-    Hashtable <String, Doctor> doctors;
+    Hashtable<String, Doctor> doctors;
+
     protected void setup() {
 
         // Register doctor service so portal agent can search and find
@@ -25,8 +26,7 @@ public class HealthCareProviderAgent extends Agent {
         dfd.addServices(sd);
         try {
             DFService.register(this, dfd);
-        }
-        catch (FIPAException fe) {
+        } catch (FIPAException fe) {
             fe.printStackTrace();
         }
 
@@ -40,17 +40,17 @@ public class HealthCareProviderAgent extends Agent {
                 msg = myAgent.receive();
                 if (msg != null) {
                     String content = "";
-                    switch (msg.getPerformative()){
+                    switch (msg.getPerformative()) {
                         case Messages.DOCTORS_LISTS_REQUEST:
                             System.out.println("HEALTHCARE_PROVIDER: doctors' list request received");
-                            //geting a message from portal and iterate over the doctors to get the three fields
+                            // geting a message from portal and iterate over the doctors to get the three
+                            // fields
                             ACLMessage replyDoctorsList = msg.createReply();
                             replyDoctorsList.setPerformative(Messages.DOCTORS_LISTS_RESPONSE);
                             System.out.println(doctors);
                             Set<String> setOfKeys = doctors.keySet();
                             System.out.println(setOfKeys);
-                            for (String key : setOfKeys)
-                            {
+                            for (String key : setOfKeys) {
                                 content = content.concat(doctors.get(key).getName());
                                 content = content.concat(Messages.DELIMITER);
                                 content = content.concat(doctors.get(key).getSpeciality());
@@ -65,7 +65,8 @@ public class HealthCareProviderAgent extends Agent {
                             break;
                         case Messages.AVAILABILITY_REQUEST:
                             System.out.println("HEALTHCARE_PROVIDER: chosen doctor's availability request received");
-                            //get a message from the portal and parse the message and iterate over their times
+                            // get a message from the portal and parse the message and iterate over their
+                            // times
                             String[] payloadLst = msg.getContent().split(Messages.DELIMITER);
                             String selectedDoctorEmail = payloadLst[0];
                             Doctor selectedDoctor = doctors.get(selectedDoctorEmail);
@@ -74,23 +75,24 @@ public class HealthCareProviderAgent extends Agent {
                             replyAvailability.setPerformative(Messages.AVAILABILITY_RESPONSE);
                             if (selectedDoctor != null) {
                                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                                for (int i = 0; i < selectedDoctor.getAvailability().size(); i++){
+                                for (int i = 0; i < selectedDoctor.getAvailability().size(); i++) {
                                     if (!selectedDoctor.getAvailability().get(i).getReserved()) {
-                                        content = content.concat(selectedDoctor.getAvailability().get(i).getStartingDateTime().format(formatter));
+                                        content = content.concat(selectedDoctor.getAvailability().get(i)
+                                                .getStartingDateTime().format(formatter));
                                         content = content.concat(Messages.DELIMITER);
                                     }
                                 }
-                            }
-                            else {
+                            } else {
                                 content = Messages.MESSAGE_FAILURE;
                             }
 
-                            System.out.println("HEALTHCARE_PROVIDER: Sending selected doctor's availability back to portal");
+                            System.out.println(
+                                    "HEALTHCARE_PROVIDER: Sending selected doctor's availability back to portal");
 
                             replyAvailability.setContent(content);
                             send(replyAvailability);
                             break;
-                        
+
                         case Messages.CONFIRM_APPOINTMENT_REQUEST:
                             System.out.println("HEALTHCARE_PROVIDER: confirm appointment request received");
 
@@ -100,11 +102,28 @@ public class HealthCareProviderAgent extends Agent {
 
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                             LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, formatter);
-            
+                            System.out.println(dateTime);
                             System.out.println(doctorEmail);
                             Doctor selectedDoctorr = doctors.get(doctorEmail);
                             System.out.println(selectedDoctorr);
-                            selectedDoctorr.getAvailability().removeIf(c -> c.getStartingDateTime() == dateTime);
+                            ArrayList<Calendar> newAv = new ArrayList<Calendar>();
+                            for (Calendar c : selectedDoctorr.getAvailability()) {
+
+                                if (c.getStartingDateTime().compareTo(dateTime) == 0) {
+                                    System.out.println("here");
+                                    Calendar newCal = new Calendar(c.getStartingDateTime(), c.getDuration(),
+                                            true);
+
+                                    newAv.add(newCal);
+                                } else {
+                                    newAv.add(c);
+                                }
+
+                            }
+                            for (Calendar c : newAv) {
+                                System.out.println(c.getReserved());
+                            }
+                            selectedDoctorr.setAvailability(newAv);
                             doctors.replace(doctorEmail, selectedDoctorr);
 
                             break;
