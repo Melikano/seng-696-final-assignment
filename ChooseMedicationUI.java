@@ -76,7 +76,7 @@ public class ChooseMedicationUI extends UserInterface implements ActionListener 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        // if submit button was pressed, then the 
+        // if submit button was pressed, then the send request for ordering the medication to the Pharmacy Agent
         if (e.getSource() == this.submitButton) {
             String numberString = medicationtNumTextField.getText();
             numberString = numberString.replaceAll("\\s+", "");
@@ -86,24 +86,30 @@ public class ChooseMedicationUI extends UserInterface implements ActionListener 
                 showFailureNoOptions();
                 return;
             }
-            Medication newMed = new Medication(medications.get(number).get(0), medications.get(number).get(1), null, null);
+            Medication newMed = new Medication(medications.get(number).get(0), medications.get(number).get(1), null,
+                    null);
             System.out.println("selected: " + number);
             //add this to the users medication
             PortalUI.returnSingleton().requestAddMedication(newMed);
-            JOptionPane.showMessageDialog(null, "Order for the selected medication was confirmed by the pharmacy!", "alert", JOptionPane.INFORMATION_MESSAGE);
+            PortalUI.returnSingleton().requestOrderMedication(newMed);
         }
         if (e.getSource() == this.goBackHome) {
             this.disposeFrame();
             this.panel.removeAll();
             HomeUI homeUIInstance = HomeUI.createUI();
             homeUIInstance.show();
-
         }
 
     }
 
     public void showFailureNoOptions() {
         JOptionPane.showMessageDialog(null, "Invalid option", "alert", JOptionPane.ERROR_MESSAGE);
+
+    }
+
+    public void showSuccess() {
+        JOptionPane.showMessageDialog(null, "Order for the selected medication was confirmed by the pharmacy!", "alert",
+                JOptionPane.INFORMATION_MESSAGE);
 
     }
 

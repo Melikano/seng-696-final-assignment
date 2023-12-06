@@ -74,7 +74,10 @@ public class PortalUI {
         medicationUI.show();
     }
 
+<<<<<<< HEAD
     //call appointmentUI to show appointment list and passing appointments that user has created
+=======
+>>>>>>> 74ae649 (fix request and response for ordering medication)
     public void showAppointmentsList(ArrayList<ArrayList<String>> appointments) {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
@@ -89,37 +92,36 @@ public class PortalUI {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
 
-        if(exist == true){
-        TestUI testUI = TestUI.createUI();
-        testUI.tableHandler(tests);
-        testUI.show();
-        }
-        else{
+        if (exist == true) {
+            TestUI testUI = TestUI.createUI();
+            testUI.tableHandler(tests);
+            testUI.show();
+        } else {
             TestUI testUI = TestUI.createUI();
             home.show();
             testUI.showFailureMessage();
         }
     }
 
+<<<<<<< HEAD
     
     //show the list and amount of money each insurance covers the user
+=======
+>>>>>>> 74ae649 (fix request and response for ordering medication)
     public void showInsuranceList(Boolean exist, ArrayList<ArrayList<String>> tests) {
         HomeUI home = HomeUI.createUI();
         home.disposeFrame();
 
-        if(exist == true){
-        InsuranceUI insuranceUI = InsuranceUI.createUI();
-        insuranceUI.tableHandler(tests);
-        insuranceUI.show();
-        }
-        else{
+        if (exist == true) {
+            InsuranceUI insuranceUI = InsuranceUI.createUI();
+            insuranceUI.tableHandler(tests);
+            insuranceUI.show();
+        } else {
             InsuranceUI insuranceUI = InsuranceUI.createUI();
             home.show();
             insuranceUI.showFailureMessage();
         }
     }
-    
-
 
     public void requestRegister(String name, String email, String phone, String password) {
         portalAgentInstance.registerRequest(name, email, phone, password);
@@ -163,23 +165,23 @@ public class PortalUI {
         portalAgentInstance.doctorsListRequest();
     }
 
-    public void requestAppointmentsList(){
+    public void requestAppointmentsList() {
         portalAgentInstance.appointmentsListRequest();
     }
 
-    
-    public void requestPastMedicationsList(){
+    public void requestPastMedicationsList() {
         portalAgentInstance.pastMedicationsRequest();
     }
 
-    public void requestMedicationsList(){
+    public void requestMedicationsList() {
         portalAgentInstance.medicationListRequest();
     }
 
-    public void requestPasMedicationsList(){
+    public void requestPasMedicationsList() {
         portalAgentInstance.pastMedicationsRequest();
     }
 
+<<<<<<< HEAD
     //passing email to find the tests related to that patient
     public void requestTestsList(){
         portalAgentInstance.testsListRequest(this.patientEmail);
@@ -187,6 +189,13 @@ public class PortalUI {
 
     //passing email to find the insurance related to that patient
     public void requestInsuranceList(){
+=======
+    public void requestTestsList() {
+        portalAgentInstance.testsListRequest(this.patientEmail);
+    }
+
+    public void requestInsuranceList() {
+>>>>>>> 74ae649 (fix request and response for ordering medication)
         portalAgentInstance.insuranceListRequest(this.patientEmail);
     }
 
@@ -199,6 +208,10 @@ public class PortalUI {
     }
 
     //availability of the specific doctor that is passed
+    public void requestOrderMedication(Medication medication) {
+        portalAgentInstance.orderMedicationRequest(medication);
+    }
+
     public void requestAvailability(String doctorEmail) {
         this.doctorEmail = doctorEmail;
         portalAgentInstance.availabilityRequest(doctorEmail);
@@ -224,6 +237,18 @@ public class PortalUI {
             selectAPPUI.showFailureMessage();
         }
 
+    }
+
+    public void orderMedicationConfirm(boolean confirmed, Medication newMed) {
+        System.out.println(confirmed);
+        if (confirmed) {
+            PortalUI.returnSingleton().requestAddMedication(newMed);
+            ChooseMedicationUI medUI = ChooseMedicationUI.createUI();
+            medUI.showSuccess();
+        } else {
+            ChooseMedicationUI selectAPPUI = ChooseMedicationUI.createUI();
+            selectAPPUI.showFailureNoOptions();
+        }
     }
 
 }

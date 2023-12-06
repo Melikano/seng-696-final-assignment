@@ -28,7 +28,6 @@ public class Messages {
     public final static int TEST_LIST_REQUEST = 16;
     public final static int TEST_LIST_RESPONSE = 17;
 
-    
     public final static int INSURANCE_LIST_REQUEST = 18;
     public final static int INSURANCE_LIST_RESPONSE = 19;
 
@@ -40,6 +39,9 @@ public class Messages {
 
     public final static int PAST_MEDICATIONS_LIST_REQUEST = 24;
     public final static int PAST_MEDICATIONS_LIST_RESPONSE = 25;
+
+    public final static int ORDER_MEDICATION_REQUEST = 26;
+    public final static int ORDER_MEDICATION_RESPONSE = 27;
 
     public final static String DELIMITER = "#";
 

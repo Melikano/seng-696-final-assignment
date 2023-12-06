@@ -61,6 +61,20 @@ public class PharmacyAgent extends Agent {
                             replyMedicationsList.setContent(content);
                             send(replyMedicationsList);
                             break;
+                        case Messages.ORDER_MEDICATION_REQUEST:
+                            System.out.println("PHARMACY: order medication request received");
+                            String[] payloadLst = msg.getContent().split(Messages.DELIMITER);
+                            String medicationName = payloadLst[0];
+                            String medicationDesc = payloadLst[1];
+                            ACLMessage reply = msg.createReply();
+                            reply.setPerformative(Messages.ORDER_MEDICATION_RESPONSE);
+                            String status = medications.get(medicationName).getAvailability() > 0
+                                    ? Messages.MESSAGE_SUCCESS
+                                    : Messages.MESSAGE_FAILURE;
+                            reply.setContent(status
+                                    + Messages.DELIMITER + medicationName + Messages.DELIMITER + medicationDesc);
+                            send(reply);
+
                     }
                 }
             }

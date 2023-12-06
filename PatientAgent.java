@@ -238,6 +238,7 @@ public class PatientAgent extends Agent {
             ACLMessage msg = myAgent.receive(mt);
 
             if (msg != null) {
+                System.out.println("PATIENT: Add medication request received");
                 String[] payloadLst = msg.getContent().split(Messages.DELIMITER);
 
                 ACLMessage reply = msg.createReply();
