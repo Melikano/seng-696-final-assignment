@@ -44,6 +44,7 @@ public class PatientAgent extends Agent {
             fe.printStackTrace();
         }
 
+        //functions to handle different messages that the patient will receive
         addBehaviour(new PatientAgent.userRegServer());
         addBehaviour(new PatientAgent.userLoginServer());
         addBehaviour(new PatientAgent.appointmentServer());
@@ -71,6 +72,7 @@ public class PatientAgent extends Agent {
         System.out.println("Patient-agent " + getAID().getName() + " terminating.");
     }
 
+    //register request
     private class userRegServer extends CyclicBehaviour {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.REGISTER_REQUEST);
@@ -88,6 +90,7 @@ public class PatientAgent extends Agent {
                 reply.setPerformative(Messages.REGISTER_RESPONSE);
                 String content = "";
 
+                //check if the email already exists
                 if (patients.containsKey(newPatient.getEmail())) {
                     content = Messages.MESSAGE_FAILURE;
                 } else {
@@ -103,6 +106,7 @@ public class PatientAgent extends Agent {
         }
     }
 
+    //login request
     private class userLoginServer extends CyclicBehaviour {
         @Override
         public void action() {
@@ -116,6 +120,7 @@ public class PatientAgent extends Agent {
 
                 System.out.println("Patient: Received an login request for user: " + newInfo[0]);
 
+                //check login credentials
                 boolean flag = loginUser(newInfo[0], newInfo[1]);
                 ACLMessage reply = msg.createReply();
                 reply.setPerformative(Messages.LOGIN_RESPONSE);
@@ -137,6 +142,7 @@ public class PatientAgent extends Agent {
         }
     }
 
+    //create appointment 
     private class appointmentServer extends CyclicBehaviour {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.CREATE_APPOINTMENT_REQUEST);
@@ -161,6 +167,7 @@ public class PatientAgent extends Agent {
                 LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, formatter);
 
                 boolean alreadyExists = false;
+                //check if the appointment has been taken before
                 for (Appointment appointment : appointments) {
                     if (appointment.getPatientEmail().equals(patientEmail) &&
                             appointment.getDoctorEmail().equals(doctorEmail)) {
@@ -172,6 +179,7 @@ public class PatientAgent extends Agent {
                 if (alreadyExists) {
                     content = Messages.MESSAGE_FAILURE;
                 } else {
+                    //the information of the appointment will be sent 
                     Integer newAppointmentID = appointments.size();
                     Appointment newAppointment = new Appointment(newAppointmentID, patientEmail,
                             doctorEmail, dateTime, DoctorsUtils.HOURLY_WAGE, Boolean.FALSE);
@@ -190,7 +198,8 @@ public class PatientAgent extends Agent {
         }
 
     }
-
+    
+    //list of appointments
     private class appointmentsListServer extends CyclicBehaviour {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.APPOINTMENTS_LIST_REQUEST);
@@ -199,8 +208,7 @@ public class PatientAgent extends Agent {
             if (msg != null) {
                 System.out.println("PATIENT: appointments' list request received");
                 String content = "";
-                // geting a message from portal and iterate over the doctors to get the three
-                // fields
+
                 ACLMessage replyAppointmentsList = msg.createReply();
                 replyAppointmentsList.setPerformative(Messages.APPOINTMENTS_LIST_RESPONSE);
                 System.out.println(appointments);
@@ -223,6 +231,7 @@ public class PatientAgent extends Agent {
 
     }
 
+    //add a medication
     private class medicationServer extends CyclicBehaviour {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.ADD_MEDICATION_REQUEST);
@@ -235,6 +244,7 @@ public class PatientAgent extends Agent {
                 reply.setPerformative(Messages.ADD_MEDICATION_RESPONSE);
                 String content = "";
 
+                //get data of the medication
                 String[] contentLst = msg.getContent().split(Messages.DELIMITER);
                 String medicationName = contentLst[0];
                 String medicationDesc = contentLst[1];
@@ -250,6 +260,7 @@ public class PatientAgent extends Agent {
 
     }
 
+    //previous medications requested
     private class medicationsListServer extends CyclicBehaviour {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(Messages.PAST_MEDICATIONS_LIST_REQUEST);

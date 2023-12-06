@@ -7,6 +7,7 @@ import java.util.Hashtable;
 
 public class PatientUtils {
 
+    //the hardcoded data for the patients
     public static Hashtable<String, Patient> generatePatients() {
 
         Hashtable<String, Patient> patients = new Hashtable<>();
