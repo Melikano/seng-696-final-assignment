@@ -30,7 +30,7 @@ public class AppointmentsListUI extends UserInterface implements ActionListener 
         goBackHome.addActionListener(this);
         frame.add(panel);
     }
-
+//show the appointments in a table
     public void tableHandler(ArrayList<ArrayList<String>> appointments) {
         this.appointments = appointments;
 
@@ -38,7 +38,7 @@ public class AppointmentsListUI extends UserInterface implements ActionListener 
 
         String[][] appointmentsList = new String[appointments.size()][2];
 
-
+    //get the appointment data and iterate over it
         int testCounter = 0;
         for (int i = 0; i < appointments.size(); i++) {
             String[] tempArray = new String[3];
